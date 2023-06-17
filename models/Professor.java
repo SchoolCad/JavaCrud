@@ -1,9 +1,9 @@
 public class Professor {
-    private int id;          // Id do professor;
-    private String CPF;      // CPF do professor;
     private String nome;     // Nome do professor;
     private String email;    // Email do professor;
+    private String CPF;      // CPF do professor;
     private Data nascimento; // Data de nascimento do professor;
+    private int id;          // Id do professor;
 
 
     // Criando métodos para pegar/inserir dados:

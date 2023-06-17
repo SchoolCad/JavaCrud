@@ -1,9 +1,9 @@
 public class Aluno {
-    private int id;          // Id do Aluno;
-    private String CPF;      // CPF do Aluno;
     private String nome;     // Nome do Aluno;
     private String email;    // Email do Aluno;
+    private String CPF;      // CPF do Aluno;
     private Data nascimento; // Data de nascimento do Aluno;
+    private int id;          // Id do Aluno;
 
 
     // Criando métodos para pegar/inserir dados:
