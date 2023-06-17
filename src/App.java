@@ -1,4 +1,6 @@
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class App {
@@ -17,8 +19,24 @@ public class App {
         System.in.read();
     }
 
+    // Função para salvar em arquivo:
+    public int saveInFile(String fileName, String stringToSave) {
+        try
+        {
+            PrintWriter writer = new PrintWriter(new FileWriter(fileName, true));
+            writer.println(stringToSave);
+            writer.close();
+
+            return 0; // Caso ela seja salva com sucesso, a funçãl retorna 0;
+        } catch (IOException e)
+        {
+            System.out.println("ERRO: Não foi possível salvar no arquivo -> " + e.getMessage());
+            return 1; // Caso haja algum problema ao salvar, esse problema é exibido e a função retorna 1;
+        }
+    }
+
     /*
-    // Função para gerar a ID (traduzida e reaproveitada de C):
+    // Função para gerar a ID (traduzida e reaproveitada de um antigo trabalho em C):
     public static int idGenerator(String OBJ){
         // Declara uma variável de verificação e um cont.
         int verif, cont = 0;
@@ -63,16 +81,20 @@ public class App {
                         switch (rUserL2) {
                             case 1:
                                 clearScreen();
+                                System.out.print("O===========================================O\n| [1] Você escolheu cadastrar um Professor. |\nO===========================================O\n");
                                 
+
                             break;
 
                             case 2:
                                 clearScreen();
+                                System.out.print("O=======================================O\n| [1] Você escolheu cadastrar um Aluno. |\nO=======================================O\n");
 
                             break;
 
                             case 3:
                                 clearScreen();
+                                System.out.print("O=======================================O\n| [1] Você escolheu cadastrar uma sala. |\nO=======================================O\n");
 
                             break;
 
