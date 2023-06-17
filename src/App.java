@@ -279,7 +279,7 @@ public class App {
                                         System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
                                         Finder = scan.nextLine();
 
-                                        String valueFinded = LookInFile("./data/AlunoBd.txt", Finder, rUserL3);
+                                        String valueFinded = LookInFile("./data/SalaBd.txt", Finder, rUserL3);
                                         if (valueFinded.contains("-134129582935828532-59285-8258423-852345235345")) {
                                             System.out.println("\nDados não encontrados.");
                                         } else {
