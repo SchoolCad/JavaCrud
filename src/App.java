@@ -79,8 +79,8 @@ public class App {
 
             switch (rUserL1) {
                 case 1:
-                    clearScreen();
                     do {
+                        clearScreen();
                         System.out.print("O==============================O\n| O que você deseja cadastrar? |\nO==============================O\n| [1] Professor.               |\n| [2] Aluno.                   |\n| [3] Sala.                    |\n| [4] Voltar.                  |\nO==============================O\n\nR: ");
                         rUserL2 = Integer.parseInt(scan.nextLine());
 
@@ -122,7 +122,7 @@ public class App {
                                 newTeacher.setId(idGenerator());
 
                                 //Salvando o novo professor no arquivo:
-                                SaveInFile("ProfessorBd.txt", (newTeacher.getNome() + ";" + newTeacher.getEmail() + ";" + newTeacher.getCPF() + ";" + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";" + newTeacher.getId()));
+                                SaveInFile("./data/ProfessorBd.txt", (newTeacher.getNome() + ";" + newTeacher.getEmail() + ";" + newTeacher.getCPF() + ";" + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";" + newTeacher.getId()));
                             break;
 
                             case 2:
@@ -162,13 +162,23 @@ public class App {
                                 newStudent.setId(idGenerator());
 
                                 //Salvando o novo Aluno no arquivo:
-                                SaveInFile("AlunoBd.txt", (newStudent.getNome() + ";" + newStudent.getEmail() + ";" + newStudent.getCPF() + ";" + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";" + newStudent.getId()));
+                                SaveInFile("./data/AlunoBd.txt", (newStudent.getNome() + ";" + newStudent.getEmail() + ";" + newStudent.getCPF() + ";" + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";" + newStudent.getId()));
                             break;
 
                             case 3:
                                 clearScreen();
                                 System.out.print("O=======================================O\n| [1] Você escolheu cadastrar uma sala. |\nO=======================================O\n");
+                                Sala newClassroom = new Sala();
 
+                                // Salvando o número da sala:
+                                System.out.print("\nDigite o número da nova sala.\nR: ");
+                                newClassroom.setNum(Integer.parseInt(scan.nextLine()));
+
+                                // Salvando o ID da sala:
+                                newClassroom.setId(idGenerator());
+
+                                // Salvando a sala no arquivo:
+                                SaveInFile("./data/SalaDb.txt", (newClassroom.getNum() + ";" + newClassroom.getId()));
                             break;
 
                             case 4:
@@ -186,8 +196,8 @@ public class App {
                 break;
 
                 case 2:
-                    clearScreen();
                     do {
+                        clearScreen();
                         System.out.print("O===============================O\n| O que você deseja Visualizar? |\nO===============================O\n| [1] Professor.                |\n| [2] Aluno.                    |\n| [3] Sala.                     |\n| [4] Voltar.                   |\nO===============================O\n\nR: ");
                         rUserL2 = Integer.parseInt(scan.nextLine());
 
@@ -222,8 +232,8 @@ public class App {
                 break;
 
                 case 3:
-                    clearScreen();
                     do{
+                        clearScreen();
                         System.out.print("O===========================O\n| O que você deseja Editar? |\nO===========================O\n| [1] Professor.            |\n| [2] Aluno.                |\n| [3] Sala.                 |\n| [4] Voltar.               |\nO===========================O\n\nR: ");
                         rUserL2 = Integer.parseInt(scan.nextLine());
 
@@ -258,8 +268,8 @@ public class App {
                 break;
 
                 case 4:
-                    clearScreen();
                     do{
+                        clearScreen();
                         System.out.print("O============================O\n| O que você deseja Deletar? |\nO============================O\n| [1] Professor.             |\n| [2] Aluno.                 |\n| [3] Sala.                  |\n| [4] Voltar.                |\nO============================O\n\nR: ");
                         rUserL2 = Integer.parseInt(scan.nextLine());
 
