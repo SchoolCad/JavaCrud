@@ -20,7 +20,7 @@ public class App {
     }
 
     // Função para salvar em arquivo:
-    public int saveInFile(String fileName, String stringToSave) {
+    public static int SaveInFile(String fileName, String stringToSave) {
         try
         {
             PrintWriter writer = new PrintWriter(new FileWriter(fileName, true));
@@ -35,16 +35,17 @@ public class App {
         }
     }
 
-    /*
-    // Função para gerar a ID (traduzida e reaproveitada de um antigo trabalho em C):
-    public static int idGenerator(String OBJ){
+    
+    // Função para gerar uma ID:
+    public static int idGenerator(){
+        /*
         // Declara uma variável de verificação e um cont.
         int verif, cont = 0;
         // A função testa para achar um valor que seja igual à algum Id.
         do
         {
             verif = 0;
-            for (node *I = lista->inicio; I != NULL; I = I->proximo)
+            for ()
             {
                 if (cont == I->UserNode.id)
                 {
@@ -58,13 +59,18 @@ public class App {
             }
         } while (verif != 0); // Enquanto a função não encontrar um valor para cont, que seja diferente de todos os IDs, ela não para.
 
-        return cont; // Quando a função acha um valor para o novo Id, esse valor é retornado par a main.
-    }*/
+        return cont; // Quando a função acha um valor para o novo Id, esse valor é retornado par a main. */
+
+        // Por enquanto é gambiarra: (tem que arrumar a função para ela percorrer um arquivo procurando uma ID livre)
+        return (int) (Math.random() * 99999);
+    }
 
     public static void main(String[] args) throws Exception {
 
         Scanner scan = new Scanner(System.in);
         int rUserL1, rUserL2;
+        String[] dataConversor;
+        Data newData;
 
         clearScreen();
         do {
@@ -82,14 +88,81 @@ public class App {
                             case 1:
                                 clearScreen();
                                 System.out.print("O===========================================O\n| [1] Você escolheu cadastrar um Professor. |\nO===========================================O\n");
-                                
+                                Professor newTeacher = new Professor();
 
+                                //Pegando valores para salvar:
+
+                                // Salvando o nome do novo professor:
+                                System.out.print("\nDigite o Nome do novo professor.\nR: ");
+                                newTeacher.setNome(scan.nextLine());
+
+                                // Salvando o email do novo professor:
+                                System.out.print("\nDigite o Email do novo professor.\nR: ");
+                                newTeacher.setEmail(scan.nextLine());
+
+                                // Salvando o CPF do novo professor:
+                                System.out.print("\nDigite o CPF do novo professor.\nR: ");
+                                newTeacher.setCPF(scan.nextLine());
+
+                                // Salvando a data de nascimento do novo professor:
+                                System.out.print("\nDigite a data de nascimento do professor. [DD/MM/AAAA]\nR: ");
+
+                                // Convertendo a string DD/MM/AAA para inteiros:
+                                dataConversor = scan.nextLine().split("/");
+
+                                newData = new Data();
+
+                                newData.setDia(Integer.parseInt(dataConversor[0]));
+                                newData.setMes(Integer.parseInt(dataConversor[1]));
+                                newData.setAno(Integer.parseInt(dataConversor[2]));
+
+                                newTeacher.setNascimento(newData);
+                                
+                                // Gerando a ID para o novo professor:
+                                newTeacher.setId(idGenerator());
+
+                                //Salvando o novo professor no arquivo:
+                                SaveInFile("ProfessorBd.txt", (newTeacher.getNome() + ";" + newTeacher.getEmail() + ";" + newTeacher.getCPF() + ";" + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";" + newTeacher.getId()));
                             break;
 
                             case 2:
                                 clearScreen();
                                 System.out.print("O=======================================O\n| [1] Você escolheu cadastrar um Aluno. |\nO=======================================O\n");
+                                Aluno newStudent = new Aluno();
 
+                                //Pegando valores para salvar:
+
+                                // Salvando o nome do novo Aluno:
+                                System.out.print("\nDigite o Nome do novo Aluno.\nR: ");
+                                newStudent.setNome(scan.nextLine());
+
+                                // Salvando o email do novo Aluno:
+                                System.out.print("\nDigite o Email do novo Aluno.\nR: ");
+                                newStudent.setEmail(scan.nextLine());
+
+                                // Salvando o CPF do novo Aluno:
+                                System.out.print("\nDigite o CPF do novo Aluno.\nR: ");
+                                newStudent.setCPF(scan.nextLine());
+
+                                // Salvando a data de nascimento do novo Aluno:
+                                System.out.print("\nDigite a data de nascimento do Aluno. [DD/MM/AAAA]\nR: ");
+
+                                // Convertendo a string DD/MM/AAA para inteiros:
+                                dataConversor = scan.nextLine().split("/");
+
+                                newData = new Data();
+
+                                newData.setDia(Integer.parseInt(dataConversor[0]));
+                                newData.setMes(Integer.parseInt(dataConversor[1]));
+                                newData.setAno(Integer.parseInt(dataConversor[2]));
+
+                                newStudent.setNascimento(newData);
+                                
+                                // Gerando a ID para o novo Aluno:
+                                newStudent.setId(idGenerator());
+
+                                //Salvando o novo Aluno no arquivo:
+                                SaveInFile("AlunoBd.txt", (newStudent.getNome() + ";" + newStudent.getEmail() + ";" + newStudent.getCPF() + ";" + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";" + newStudent.getId()));
                             break;
 
                             case 3:

@@ -3,15 +3,7 @@ public class Data {
     private int mes;
     private int ano;
 
-    // Construindo a classe data:
-    public Data(int dia, int mes, int ano) {
-        this.dia = dia;
-        this.mes = mes;
-        this.ano = ano;
-    }
-
     // Criando métodos para exibir/pegar dados:
-
     // Pegar dia:
     public int getDia() {
         return dia;
@@ -28,7 +20,6 @@ public class Data {
     }
 
     // Criando métodos para inserir dados:
-    
     // Inserir dia:
     public void setDia(int dia) {
         this.dia = dia;
