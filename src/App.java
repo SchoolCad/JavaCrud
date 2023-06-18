@@ -47,12 +47,13 @@ public class App {
                 String[] Part = linha.split(";");
 
                 if (Part[indice].contains(valueFinder)) {
-                    System.out.println("\nDados encontrados:\n");
+                    System.out.println("\nO======================================O");
                     System.out.println(Part[0]);
                     System.out.println(Part[1]);
                     System.out.println(Part[2]);
                     System.out.println(Part[3]);
                     System.out.println(Part[4]);
+                    System.out.println("\n");
                     verif = 1;
                 }
             }
@@ -216,7 +217,7 @@ public class App {
                                     if (rUserL3 >= 1 && rUserL3 <= 6) {
                                         rUserL3--;
 
-                                        if(rUserL3!=6){
+                                        if(rUserL3!=5){
                                             System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
                                             Finder = scan.nextLine();
                                         }else{
@@ -224,7 +225,7 @@ public class App {
                                         }
 
                                         if(LookInFile("./data/ProfessorBd.txt", Finder, rUserL3)==1){
-                                            System.out.println("\n\nDados encontrados!");
+                                            System.out.println("\n\nEsses foram os encontrados!");
                                         }else{
                                             System.out.println("\n\nDados não encontrados!");
                                         }
@@ -246,7 +247,7 @@ public class App {
                                     if (rUserL3 >= 1 && rUserL3 <= 6) {
                                         rUserL3--;
 
-                                        if(rUserL3!=6){
+                                        if(rUserL3!=5){
                                             System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
                                             Finder = scan.nextLine();
                                         }else{
@@ -254,7 +255,7 @@ public class App {
                                         }
 
                                         if(LookInFile("./data/AlunoBd.txt", Finder, rUserL3)==1){
-                                            System.out.println("\n\nDados encontrados!");
+                                            System.out.println("\n\nEsses foram os dados encontrados!");
                                         }else{
                                             System.out.println("\n\nDados não encontrados!");
                                         }
@@ -275,7 +276,7 @@ public class App {
                                     if (rUserL3 >= 1 && rUserL3 <= 3) {
                                         rUserL3--;
 
-                                        if(rUserL3!=3){
+                                        if(rUserL3!=2){
                                             System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
                                             Finder = scan.nextLine();
                                         }else{
@@ -283,7 +284,7 @@ public class App {
                                         }
 
                                         if(LookInFile("./data/SalaBd.txt", Finder, rUserL3)==1){
-                                            System.out.println("\n\nDados encontrados!");
+                                            System.out.println("\n\nEsses foram encontrados!");
                                         }else{
                                             System.out.println("\n\nDados não encontrados!");
                                         }
