@@ -36,8 +36,8 @@ public class App {
     }
 
     // Função para procurar algo específico em um arquivo:
-    public static String LookInFile(String fileName, String valueFinder, int indice) {
-        String valueFinded = "-134129582935828532-59285-8258423-852345235345"; // Gambiarra, mas ninguém nunca vai digitar isso aqui :)
+    public static int LookInFile(String fileName, String valueFinder, int indice) {
+        int verif = 0;
         try {
             FileReader fileScan = new FileReader(fileName);
             BufferedReader bufferedReader = new BufferedReader(fileScan);
@@ -47,15 +47,20 @@ public class App {
                 String[] Part = linha.split(";");
 
                 if (Part[indice].contains(valueFinder)) {
-                    valueFinded = linha;
-                    break;
+                    System.out.println("\nDados encontrados:\n");
+                    System.out.println(Part[0]);
+                    System.out.println(Part[1]);
+                    System.out.println(Part[2]);
+                    System.out.println(Part[3]);
+                    System.out.println(Part[4]);
+                    verif = 1;
                 }
             }
             bufferedReader.close();
         } catch (IOException e) {
             System.out.println("ERRO: Não foi possível ler do arquivo -> " + e.getMessage());
         }
-        return valueFinded;
+        return verif;
     }
 
     // Função para gerar uma ID (falta fazer/melhorar):
@@ -122,8 +127,7 @@ public class App {
                                 newTeacher.setId(idGenerator());
 
                                 // Salvando o novo professor no arquivo:
-                                SaveInFile("./data/ProfessorBd.txt",
-                                        (newTeacher.getNome() + ";" + newTeacher.getEmail() + ";" + newTeacher.getCPF() + ";" + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";" + newTeacher.getId()));
+                                SaveInFile("./data/ProfessorBd.txt", ("Nome do Professor: " + newTeacher.getNome() + ";Email do Professor: " + newTeacher.getEmail() + ";CPF do professor: " + newTeacher.getCPF() + ";Nascimento: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";ID do professor:" + newTeacher.getId()) + ";" + "1");
                                 break;
 
                             case 2:
@@ -163,8 +167,7 @@ public class App {
                                 newStudent.setId(idGenerator());
 
                                 // Salvando o novo Aluno no arquivo:
-                                SaveInFile("./data/AlunoBd.txt",
-                                        (newStudent.getNome() + ";" + newStudent.getEmail() + ";" + newStudent.getCPF() + ";" + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";" + newStudent.getId()));
+                                SaveInFile("./data/AlunoBd.txt", ("Nome do aluno: " + newStudent.getNome() + ";Email do aluno: " + newStudent.getEmail() + ";CPF do aluno: " + newStudent.getCPF() + ";Nascimento: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";ID do aluno: " + newStudent.getId()) + ";" + "1");
                                 break;
 
                             case 3:
@@ -180,7 +183,7 @@ public class App {
                                 newClassroom.setId(idGenerator());
 
                                 // Salvando a sala no arquivo:
-                                SaveInFile("./data/SalaDb.txt", (newClassroom.getNum() + ";" + newClassroom.getId()));
+                                SaveInFile("./data/SalaDb.txt", (newClassroom.getNum() + ";" + newClassroom.getId()) + ";" + "1");
                                 break;
 
                             case 4:
@@ -207,92 +210,89 @@ public class App {
                             case 1:
                                 do {
                                     clearScreen();
-                                    System.out.print("O========================================O\n| Você escolheu [1] Visualizar Professor |\nO========================================O\n|   Digite como você deseja visualizar   |\nO----------------------------------------+\n| [1] Procurar por Nome do professor.    |\n| [2] Procurar por Email do professor.   |\n| [3] Procurar por CPF do professor.     |\n| [4] Procurar por Data de nascimento.   |\n| [5] Procurar por ID do professor.      |\n| [6] Voltar.                            |\n+----------------------------------------+\nO========================================O\n");
+                                    System.out.print("O========================================O\n| Você escolheu [1] Visualizar Professor |\nO========================================O\n|   Digite como você deseja visualizar   |\nO----------------------------------------+\n| [1] Procurar por Nome do professor.    |\n| [2] Procurar por Email do professor.   |\n| [3] Procurar por CPF do professor.     |\n| [4] Procurar por Data de nascimento.   |\n| [5] Procurar por ID do professor.      |\n| [6] Visualizar todos os Professores.   |\n| [7] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
                                     rUserL3 = Integer.parseInt(scan.nextLine());
 
                                     if (rUserL3 >= 1 && rUserL3 <= 6) {
                                         rUserL3--;
 
-                                        System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
-                                        Finder = scan.nextLine();
-
-                                        String valueFinded = LookInFile("./data/ProfessorBd.txt", Finder, rUserL3);
-                                        if (valueFinded.contains("-134129582935828532-59285-8258423-852345235345")) {
-                                            System.out.println("\nDados não encontrados.");
-                                        } else {
-                                            String[] Part = valueFinded.split(";");
-                                            System.out.println("\nDados encontrados:\n");
-                                            System.out.println("Nome do Professor: " + Part[0]);
-                                            System.out.println("Email do Professor: " + Part[1]);
-                                            System.out.println("CPF do Professor: " + Part[2]);
-                                            System.out.println("Data de nascimento: " + Part[3]);
-                                            System.out.println("ID do Professor: " + Part[4]);
+                                        if(rUserL3!=6){
+                                            System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
+                                            Finder = scan.nextLine();
+                                        }else{
+                                            Finder = "1";
                                         }
-                                    } else {
+
+                                        if(LookInFile("./data/ProfessorBd.txt", Finder, rUserL3)==1){
+                                            System.out.println("\n\nDados encontrados!");
+                                        }else{
+                                            System.out.println("\n\nDados não encontrados!");
+                                        }
+                                        pauseScreen();
+                                    } else if (rUserL3!=7){
                                         System.out.println("\nValor inválido. escolha entre 1 e 6.");
+                                        pauseScreen();
                                     }
-                                    pauseScreen();
-                                } while (rUserL3 != 6);
+                                } while (rUserL3 != 7);
 
                                 break;
 
                             case 2:
                                 do {
                                     clearScreen();
-                                    System.out.print("O========================================O\n|   Você escolheu [2] Visualizar Aluno   |\nO========================================O\n|   Digite como você deseja visualizar   |\n+----------------------------------------+\n| [1] Procurar por Nome do Aluno.        |\n| [2] Procurar por Email do Aluno.       |\n| [3] Procurar por CPF do Aluno.         |\n| [4] Procurar por Data de nascimento.   |\n| [5] Procurar por ID do Aluno.          |\n| [6] Voltar.                            |\n+----------------------------------------+\nO========================================O\n");
+                                    System.out.print("O========================================O\n|   Você escolheu [2] Visualizar Aluno   |\nO========================================O\n|   Digite como você deseja visualizar   |\n+----------------------------------------+\n| [1] Procurar por Nome do Aluno.        |\n| [2] Procurar por Email do Aluno.       |\n| [3] Procurar por CPF do Aluno.         |\n| [4] Procurar por Data de nascimento.   |\n| [5] Procurar por ID do Aluno.          |\n| [6] Visualizar todos os Aluno.         |\n| [7] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
                                     rUserL3 = Integer.parseInt(scan.nextLine());
 
                                     if (rUserL3 >= 1 && rUserL3 <= 6) {
                                         rUserL3--;
 
-                                        System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
-                                        Finder = scan.nextLine();
-
-                                        String valueFinded = LookInFile("./data/AlunoBd.txt", Finder, rUserL3);
-                                        if (valueFinded.contains("-134129582935828532-59285-8258423-852345235345")) {
-                                            System.out.println("\nDados não encontrados.");
-                                        } else {
-                                            String[] Part = valueFinded.split(";");
-                                            System.out.println("\nDados encontrados:\n");
-                                            System.out.println("Nome do Aluno: " + Part[0]);
-                                            System.out.println("Email do Aluno: " + Part[1]);
-                                            System.out.println("CPF do Aluno: " + Part[2]);
-                                            System.out.println("Data de nascimento: " + Part[3]);
-                                            System.out.println("ID do Aluno: " + Part[4]);
+                                        if(rUserL3!=6){
+                                            System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
+                                            Finder = scan.nextLine();
+                                        }else{
+                                            Finder = "1";
                                         }
-                                    } else {
+
+                                        if(LookInFile("./data/AlunoBd.txt", Finder, rUserL3)==1){
+                                            System.out.println("\n\nDados encontrados!");
+                                        }else{
+                                            System.out.println("\n\nDados não encontrados!");
+                                        }
+                                        pauseScreen();
+                                    } else if (rUserL3!=7){
                                         System.out.println("\nValor inválido. escolha entre 1 e 6.");
+                                        pauseScreen();
                                     }
-                                    pauseScreen();
-                                } while (rUserL3 != 6);
+                                } while (rUserL3 != 7);
                                 break;
 
                             case 3:
                                 do {
                                     clearScreen();
-                                    System.out.print("O========================================O\n|   Você escolheu [3] Visualizar Sala    |\nO========================================O\n|   Digite como você deseja visualizar   |\n+----------------------------------------+\n| [1] Procurar por Número da sala.       |\n| [2] Procurar por ID da Sala.           |\n| [3] Voltar.                            |\n+----------------------------------------+\nO========================================O\n");
+                                    System.out.print("O========================================O\n|   Você escolheu [3] Visualizar Sala    |\nO========================================O\n|   Digite como você deseja visualizar   |\n+----------------------------------------+\n| [1] Procurar por Número da sala.       |\n| [2] Procurar por ID da Sala.           |\n| [3] Visualizar todas as salas.         |\n| [4] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
                                     rUserL3 = Integer.parseInt(scan.nextLine());
 
                                     if (rUserL3 >= 1 && rUserL3 <= 3) {
                                         rUserL3--;
 
-                                        System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
-                                        Finder = scan.nextLine();
-
-                                        String valueFinded = LookInFile("./data/SalaBd.txt", Finder, rUserL3);
-                                        if (valueFinded.contains("-134129582935828532-59285-8258423-852345235345")) {
-                                            System.out.println("\nDados não encontrados.");
-                                        } else {
-                                            String[] Part = valueFinded.split(";");
-                                            System.out.println("\nDados encontrados:\n");
-                                            System.out.println("Número da sala: " + Part[0]);
-                                            System.out.println("ID da sala: " + Part[1]);
+                                        if(rUserL3!=3){
+                                            System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
+                                            Finder = scan.nextLine();
+                                        }else{
+                                            Finder = "1";
                                         }
-                                    } else {
-                                        System.out.println("\nValor inválido. escolha entre 1 e 3.");
+
+                                        if(LookInFile("./data/SalaBd.txt", Finder, rUserL3)==1){
+                                            System.out.println("\n\nDados encontrados!");
+                                        }else{
+                                            System.out.println("\n\nDados não encontrados!");
+                                        }
+                                        pauseScreen();
+                                    } else if (rUserL3!=4){
+                                        System.out.println("\nValor inválido. escolha entre 1 e 4.");
+                                        pauseScreen();
                                     }
-                                    pauseScreen();
-                                } while (rUserL3 != 3);
+                                } while (rUserL3 != 4);
                                 break;
 
                             case 4:
