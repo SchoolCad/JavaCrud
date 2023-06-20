@@ -1,1 +1,0 @@
-Nome do aluno: Camargo;Email do aluno: camargo@email.com;CPF do aluno: 12345678910;Nascimento: 18/08/2006;ID do aluno: 9349;1

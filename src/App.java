@@ -128,7 +128,14 @@ public class App {
                                 newTeacher.setId(idGenerator());
 
                                 // Salvando o novo professor no arquivo:
-                                SaveInFile("./data/ProfessorBd.txt", ("Nome do Professor: " + newTeacher.getNome() + ";Email do Professor: " + newTeacher.getEmail() + ";CPF do professor: " + newTeacher.getCPF() + ";Nascimento: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";ID do professor:" + newTeacher.getId()) + ";" + "1");
+                                SaveInFile("./data/ProfessorBd.txt", (
+                                    "Nome do Professor: " + newTeacher.getNome() + 
+                                    ";Email do Professor: " + newTeacher.getEmail() + 
+                                    ";CPF do Professor: " + newTeacher.getCPF() + 
+                                    ";Nascimento do Professor: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + 
+                                    ";ID do Professor:" + newTeacher.getId()
+                                    ) + ";" + "1");
+
                                 break;
 
                             case 2:
@@ -168,7 +175,14 @@ public class App {
                                 newStudent.setId(idGenerator());
 
                                 // Salvando o novo Aluno no arquivo:
-                                SaveInFile("./data/AlunoBd.txt", ("Nome do aluno: " + newStudent.getNome() + ";Email do aluno: " + newStudent.getEmail() + ";CPF do aluno: " + newStudent.getCPF() + ";Nascimento: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";ID do aluno: " + newStudent.getId()) + ";" + "1");
+                                SaveInFile("./data/AlunoBd.txt", (
+                                    "Nome do Aluno: " + newStudent.getNome() + 
+                                    ";Email do Aluno: " + newStudent.getEmail() + 
+                                    ";CPF do Aluno: " + newStudent.getCPF() + 
+                                    ";Nascimento do Aluno: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + 
+                                    ";ID do Aluno: " + newStudent.getId()
+                                    ) + ";" + "1");
+
                                 break;
 
                             case 3:
@@ -184,7 +198,11 @@ public class App {
                                 newClassroom.setId(idGenerator());
 
                                 // Salvando a sala no arquivo:
-                                SaveInFile("./data/SalaDb.txt", (newClassroom.getNum() + ";" + newClassroom.getId()) + ";" + "1");
+                                SaveInFile("./data/SalaDb.txt", (
+                                    "Numero da Sala: " + newClassroom.getNum() + ";" + 
+                                    "Id da Sala: " + newClassroom.getId()
+                                    ) + ";" + "1");
+                                    
                                 break;
 
                             case 4:
