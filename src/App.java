@@ -36,8 +36,9 @@ public class App {
     }
 
     // Função para procurar algo específico em um arquivo:
-    public static int LookInFile(String fileName, String valueFinder, int indice) {
+    public static String LookInFile(String fileName, String valueFinder, int indice) {
         int verif = 0;
+        String StringToReturn = "";
         try {
             FileReader fileScan = new FileReader(fileName);
             BufferedReader bufferedReader = new BufferedReader(fileScan);
@@ -47,13 +48,7 @@ public class App {
                 String[] Part = linha.split(";");
 
                 if (Part[indice].contains(valueFinder)) {
-                    System.out.println("\nO======================================O");
-                    System.out.println(Part[0]);
-                    System.out.println(Part[1]);
-                    System.out.println(Part[2]);
-                    System.out.println(Part[3]);
-                    System.out.println(Part[4]);
-                    System.out.println("\n");
+                    StringToReturn += (linha + "|");
                     verif = 1;
                 }
             }
@@ -61,7 +56,11 @@ public class App {
         } catch (IOException e) {
             System.out.println("ERRO: Não foi possível ler do arquivo -> " + e.getMessage());
         }
-        return verif;
+        if(verif == 0){
+            StringToReturn = "-1";
+        }
+
+        return StringToReturn;
     }
 
     // Função para gerar uma ID (falta fazer/melhorar):
@@ -74,6 +73,7 @@ public class App {
 
         Scanner scan = new Scanner(System.in);
         int rUserL1, rUserL2, rUserL3;
+        String lineAux;
         String[] dataConversor;
         Data newData;
         String Finder;
@@ -128,14 +128,7 @@ public class App {
                                 newTeacher.setId(idGenerator());
 
                                 // Salvando o novo professor no arquivo:
-                                SaveInFile("./data/ProfessorBd.txt", (
-                                    "Nome do Professor: " + newTeacher.getNome() + 
-                                    ";Email do Professor: " + newTeacher.getEmail() + 
-                                    ";CPF do Professor: " + newTeacher.getCPF() + 
-                                    ";Nascimento do Professor: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + 
-                                    ";ID do Professor:" + newTeacher.getId()
-                                    ) + ";" + "1");
-
+                                SaveInFile("./data/ProfessorBd.txt", ("Nome do Professor: " + newTeacher.getNome() + ";Email do Professor: " + newTeacher.getEmail() + ";CPF do professor: " + newTeacher.getCPF() + ";Nascimento: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";ID do professor:" + newTeacher.getId()) + ";" + "1");
                                 break;
 
                             case 2:
@@ -175,14 +168,7 @@ public class App {
                                 newStudent.setId(idGenerator());
 
                                 // Salvando o novo Aluno no arquivo:
-                                SaveInFile("./data/AlunoBd.txt", (
-                                    "Nome do Aluno: " + newStudent.getNome() + 
-                                    ";Email do Aluno: " + newStudent.getEmail() + 
-                                    ";CPF do Aluno: " + newStudent.getCPF() + 
-                                    ";Nascimento do Aluno: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + 
-                                    ";ID do Aluno: " + newStudent.getId()
-                                    ) + ";" + "1");
-
+                                SaveInFile("./data/AlunoBd.txt", ("Nome do aluno: " + newStudent.getNome() + ";Email do aluno: " + newStudent.getEmail() + ";CPF do aluno: " + newStudent.getCPF() + ";Nascimento: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";ID do aluno: " + newStudent.getId()) + ";" + "1");
                                 break;
 
                             case 3:
@@ -198,11 +184,7 @@ public class App {
                                 newClassroom.setId(idGenerator());
 
                                 // Salvando a sala no arquivo:
-                                SaveInFile("./data/SalaDb.txt", (
-                                    "Numero da Sala: " + newClassroom.getNum() + ";" + 
-                                    "Id da Sala: " + newClassroom.getId()
-                                    ) + ";" + "1");
-                                    
+                                SaveInFile("./data/SalaDb.txt", (newClassroom.getNum() + ";" + newClassroom.getId()) + ";" + "1");
                                 break;
 
                             case 4:
@@ -241,11 +223,13 @@ public class App {
                                         }else{
                                             Finder = "1";
                                         }
-
-                                        if(LookInFile("./data/ProfessorBd.txt", Finder, rUserL3)==1){
-                                            System.out.println("\n\nEsses foram os encontrados!");
-                                        }else{
+                                        
+                                        lineAux = LookInFile("./data/ProfessorBd.txt", Finder, rUserL3);
+                                        
+                                        if(lineAux.equals("-1")){
                                             System.out.println("\n\nDados não encontrados!");
+                                        }else{
+                                            System.out.println(lineAux.replace("|", "\n\n").replace(";", "\n"));
                                         }
                                         pauseScreen();
                                     } else if (rUserL3!=7){
@@ -272,10 +256,12 @@ public class App {
                                             Finder = "1";
                                         }
 
-                                        if(LookInFile("./data/AlunoBd.txt", Finder, rUserL3)==1){
-                                            System.out.println("\n\nEsses foram os dados encontrados!");
-                                        }else{
+                                        lineAux = LookInFile("./data/ProfessorBd.txt", Finder, rUserL3);
+
+                                        if(lineAux.equals("-1")){
                                             System.out.println("\n\nDados não encontrados!");
+                                        }else{
+                                            System.out.println(lineAux.replace("|", "\n\n").replace(";", "\n"));
                                         }
                                         pauseScreen();
                                     } else if (rUserL3!=7){
@@ -301,10 +287,12 @@ public class App {
                                             Finder = "1";
                                         }
 
-                                        if(LookInFile("./data/SalaBd.txt", Finder, rUserL3)==1){
-                                            System.out.println("\n\nEsses foram encontrados!");
-                                        }else{
+                                        lineAux = LookInFile("./data/ProfessorBd.txt", Finder, rUserL3);
+
+                                        if(lineAux.equals("-1")){
                                             System.out.println("\n\nDados não encontrados!");
+                                        }else{
+                                            System.out.println("\n" + lineAux.replace("|", "\n\n").replace(";", "\n"));
                                         }
                                         pauseScreen();
                                     } else if (rUserL3!=4){
