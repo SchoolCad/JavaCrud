@@ -64,9 +64,51 @@ public class App {
         return verif;
     }
 
+    // Função de delete de tupla por string contida nela
+    public static Boolean deleteInFile(String fileName, int index, String target) {
+        Boolean boo = false;
+        try {
+            FileReader fileReader = new FileReader(fileName);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            
+            String archive = "";
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                archive = archive + line;
+            }
+            
+            String[] arq = archive.split(":");
+            
+            int b = 0;
+            for (int i = 0; i < arq.length; i++) {
+                String[] part = arq[i].split(";");
+                
+                if (!part[index].equals(target)) {
+
+                    try {
+                        PrintWriter writer = new PrintWriter(new FileWriter(fileName, (b==1 ? true : false)));
+                        b = 1;
+                        writer.write(arq[i] + ":\n");
+                        writer.close();
+                    } catch (IOException e) {
+                        System.out.println("Ocorreu um erro ao gravar o arquivo: " + e.getMessage());
+                    }
+
+                }else boo = true;
+            }
+            bufferedReader.close();
+            fileReader.close();
+                
+        } catch (IOException e) {
+            System.out.println("Ocorreu um erro ao ler o arquivo: " + e.getMessage());
+        }
+        return boo;
+    }
+
     // Função para gerar uma ID (falta fazer/melhorar):
     public static int idGenerator() {
-        // Por enquanto é gambiarra: (tem que arrumar a função para ela percorrer o arquivo procurando uma ID livre)
+        // Por enquanto é gambiarra: (tem que arrumar a função para ela percorrer o
+        // arquivo procurando uma ID livre)
         return (int) (Math.random() * 99999);
     }
 
@@ -129,11 +171,11 @@ public class App {
 
                                 // Salvando o novo professor no arquivo:
                                 SaveInFile("./data/ProfessorBd.txt", (
-                                    "Nome do Professor: " + newTeacher.getNome() + 
-                                    ";Email do Professor: " + newTeacher.getEmail() + 
-                                    ";CPF do Professor: " + newTeacher.getCPF() + 
-                                    ";Nascimento do Professor: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + 
-                                    ";ID do Professor:" + newTeacher.getId()
+                                    newTeacher.getNome() + ";" + 
+                                    newTeacher.getEmail() + ";" +
+                                    newTeacher.getCPF() + ";" +
+                                    dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";" +
+                                    + newTeacher.getId()
                                     ) + ";" + "1");
 
                                 break;
@@ -176,11 +218,11 @@ public class App {
 
                                 // Salvando o novo Aluno no arquivo:
                                 SaveInFile("./data/AlunoBd.txt", (
-                                    "Nome do Aluno: " + newStudent.getNome() + 
-                                    ";Email do Aluno: " + newStudent.getEmail() + 
-                                    ";CPF do Aluno: " + newStudent.getCPF() + 
-                                    ";Nascimento do Aluno: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + 
-                                    ";ID do Aluno: " + newStudent.getId()
+                                    newStudent.getNome() + ";" +
+                                    newStudent.getEmail() + ";" +
+                                    newStudent.getCPF() + ";" +
+                                    dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";" +
+                                    newStudent.getId()
                                     ) + ";" + "1");
 
                                 break;
@@ -199,8 +241,8 @@ public class App {
 
                                 // Salvando a sala no arquivo:
                                 SaveInFile("./data/SalaDb.txt", (
-                                    "Numero da Sala: " + newClassroom.getNum() + ";" + 
-                                    "Id da Sala: " + newClassroom.getId()
+                                    newClassroom.getNum() + ";" + 
+                                    newClassroom.getId()
                                     ) + ";" + "1");
                                     
                                 break;
@@ -372,18 +414,84 @@ public class App {
 
                         switch (rUserL2) {
                             case 1:
-                                clearScreen();
+                                do {
+                                    clearScreen();
+                                    System.out.print("O========================================O\n| Você escolheu [1] Deletar Professor |\nO========================================O\n|   Digite como você deseja visualizar   |\nO----------------------------------------+\n| [1] Deletar por Nome do professor.    |\n| [2] Deletar por Email do professor.   |\n| [3] Deletar por CPF do professor.     |\n| [4] Deletar por Data de nascimento.   |\n| [5] Deletar por ID do professor.   |\n| [6] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
+                                    rUserL3 = Integer.parseInt(scan.nextLine());
+                                    if(rUserL3 < 0 || rUserL3 > 6){
+                                        System.out.println("\nValor inválido. escolha entre 1 e 6.");
+                                        pauseScreen();
+                                        break;
+                                    }
+                                    if(rUserL3==6) break;
+
+                                    rUserL3--;
+
+                                    System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
+                                    Finder = scan.nextLine();
+                                    if(deleteInFile("./data/SalaDb.txt", rUserL3, Finder)){
+                                        System.out.println("\nDelete efetuado!\n");
+                                    }else{
+                                        System.out.println("\nDado não encontrado!\n");
+                                    }
+                                    pauseScreen();
+
+                                
+                                } while (rUserL3 != 6);
+
 
                                 break;
 
                             case 2:
-                                clearScreen();
+                                do {
+                                    clearScreen();
+                                    System.out.print("O========================================O\n|   Você escolheu [2] Deletar Aluno   |\nO========================================O\n|   Digite como você deseja deletar   |\n+----------------------------------------+\n| [1] Deletar por Nome do Aluno.        |\n| [2] Deletar por Email do Aluno.       |\n| [3] Deletar por CPF do Aluno.         |\n| [4] Deletar por Data de nascimento.   |\n| [5] Deletar por ID do Aluno.         |\n| [6] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
+                                    rUserL3 = Integer.parseInt(scan.nextLine());
+                                    if(rUserL3 < 0 || rUserL3 > 7){
+                                        System.out.println("\nValor inválido. escolha entre 1 e 6.");
+                                        pauseScreen();
+                                        break;
+                                    }
+                                    if(rUserL3==7) break;
 
+                                    rUserL3--;
+
+                                    System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
+                                    Finder = scan.nextLine();
+                                    if(deleteInFile("./data/AlunoBd.txt", rUserL3, Finder)){
+                                        System.out.println("\nDelete efetuado!\n");
+                                    }else{
+                                        System.out.println("\nDado não encontrado!\n");
+                                    }
+                                    pauseScreen();
+
+                                } while (rUserL3 != 6);
                                 break;
 
                             case 3:
-                                clearScreen();
+                                do {
+                                    clearScreen();
+                                    System.out.print("O========================================O\n|   Você escolheu [3] Deletar Sala    |\nO========================================O\n|   Digite como você deseja deletar   |\n+----------------------------------------+\n| [1] Deletar por Número da sala.       |\n| [2] Deletar por ID da Sala.         |\n| [3] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
+                                    rUserL3 = Integer.parseInt(scan.nextLine());
+                                    if(rUserL3 < 1 || rUserL3 > 3){
+                                        System.out.println("\nValor inválido. escolha entre 1 e 3.");
+                                        pauseScreen();
+                                        break;
+                                    }
+                                    if(rUserL3 == 3) break;
 
+                                    rUserL3--;
+
+                                    System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
+                                    Finder = scan.nextLine();
+                                    if(deleteInFile("./data/SalaDb.txt", rUserL3, Finder)){
+                                        System.out.println("\nDelete efetuado!\n");
+                                    }else{
+                                        System.out.println("\nDado não encontrado!\n");
+                                    }
+                                    pauseScreen();
+                                    
+                                } while (rUserL3 != 3);
                                 break;
 
                             case 4:
