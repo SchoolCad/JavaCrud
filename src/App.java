@@ -43,11 +43,12 @@ public class App {
             FileReader fileScan = new FileReader(fileName);
             BufferedReader bufferedReader = new BufferedReader(fileScan);
             String linha;
-
+            
             while ((linha = bufferedReader.readLine()) != null) {
                 String[] Part = linha.split(";");
+                String[] partFrom = Part[indice].split(": ");
 
-                if (Part[indice].contains(valueFinder)) {
+                if (partFrom[1].equals(valueFinder)) {
                     StringToReturn += (linha + "|");
                     verif = 1;
                 }
@@ -128,7 +129,13 @@ public class App {
                                 newTeacher.setId(idGenerator());
 
                                 // Salvando o novo professor no arquivo:
-                                SaveInFile("./data/ProfessorBd.txt", ("Nome do Professor: " + newTeacher.getNome() + ";Email do Professor: " + newTeacher.getEmail() + ";CPF do professor: " + newTeacher.getCPF() + ";Nascimento: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";ID do professor:" + newTeacher.getId()) + ";" + "1");
+                                SaveInFile("./data/ProfessorBd.txt", ((
+                                    "Nome do professor: " + newTeacher.getNome() + 
+                                    ";Email do professor: " + newTeacher.getEmail() + 
+                                    ";CPF do professor: " + newTeacher.getCPF() + 
+                                    ";Nascimento: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + 
+                                    ";ID do professor: " + newTeacher.getId()
+                                )) + ";" + "1");
                                 break;
 
                             case 2:
@@ -168,7 +175,13 @@ public class App {
                                 newStudent.setId(idGenerator());
 
                                 // Salvando o novo Aluno no arquivo:
-                                SaveInFile("./data/AlunoBd.txt", ("Nome do aluno: " + newStudent.getNome() + ";Email do aluno: " + newStudent.getEmail() + ";CPF do aluno: " + newStudent.getCPF() + ";Nascimento: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + ";ID do aluno: " + newStudent.getId()) + ";" + "1");
+                                SaveInFile("./data/AlunoBd.txt", ((
+                                    "Nome do aluno: " + newStudent.getNome() + 
+                                    ";Email do aluno: " + newStudent.getEmail() + 
+                                    ";CPF do aluno: " + newStudent.getCPF() +
+                                    ";Nascimento: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] +
+                                    ";Id do aluno: " + newStudent.getId()
+                                )) + ";" + "1");
                                 break;
 
                             case 3:
@@ -184,7 +197,10 @@ public class App {
                                 newClassroom.setId(idGenerator());
 
                                 // Salvando a sala no arquivo:
-                                SaveInFile("./data/SalaDb.txt", (newClassroom.getNum() + ";" + newClassroom.getId()) + ";" + "1");
+                                SaveInFile("./data/SalaDb.txt", ((
+                                    "Número da sala: " + newClassroom.getNum() 
+                                    + ";ID da sala: " + newClassroom.getId()
+                                ) + ";" + "1"));
                                 break;
 
                             case 4:
