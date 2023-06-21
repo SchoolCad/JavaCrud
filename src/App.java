@@ -204,7 +204,7 @@ public class App {
                                 newClassroom.setId(idGenerator());
 
                                 // Salvando a sala no arquivo:
-                                SaveInFile("./data/SalaDb.txt", ("Numero da Sala: " + newClassroom.getNum() + ";" +
+                                SaveInFile("./data/SalaBd.txt", ("Numero da Sala: " + newClassroom.getNum() + ";" +
                                         "Id da Sala: " + newClassroom.getId()) + ";" + "1");
 
                                 break;
