@@ -10,16 +10,13 @@ public class App {
 
     // Função para limpar a tela no linux e no windows:
     public static void clearScreen() throws InterruptedException, IOException {
-        if (System.getProperty("os.name").contains("Windows")) {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } else {
-            System.out.print("\033[H\033[2J");
-        }
+        System.out.print("\033[H\033[2J");
     }
 
     // Função para pausar a tela:
-    public static void pauseScreen() throws IOException {
-        System.in.read();
+    public static void pauseScreen(Scanner pauser, String buffer) {
+
+        buffer = pauser.nextLine();
     }
 
     // Função para salvar em arquivo:
@@ -38,8 +35,9 @@ public class App {
     }
 
     // Função para procurar algo específico em um arquivo:
-    public static int LookInFile(String fileName, String valueFinder, int indice) {
+    public static String LookInFile(String fileName, String valueFinder, int indice) {
         int verif = 0;
+        String StringToReturn = "";
         try {
             FileReader fileScan = new FileReader(fileName);
             BufferedReader bufferedReader = new BufferedReader(fileScan);
@@ -47,15 +45,10 @@ public class App {
 
             while ((linha = bufferedReader.readLine()) != null) {
                 String[] Part = linha.split(";");
+                String[] partFrom = Part[indice].split(": ");
 
-                if (Part[indice].contains(valueFinder)) {
-                    System.out.println("\nO======================================O");
-                    System.out.println(Part[0]);
-                    System.out.println(Part[1]);
-                    System.out.println(Part[2]);
-                    System.out.println(Part[3]);
-                    System.out.println(Part[4]);
-                    System.out.println("\n");
+                if (partFrom[1].equals(valueFinder)) {
+                    StringToReturn += (linha + "|");
                     verif = 1;
                 }
             }
@@ -63,7 +56,11 @@ public class App {
         } catch (IOException e) {
             System.out.println("ERRO: Não foi possível ler do arquivo -> " + e.getMessage());
         }
-        return verif;
+        if (verif == 0) {
+            StringToReturn = "-1";
+        }
+
+        return StringToReturn;
     }
 
     // Função para gerar uma ID (falta fazer/melhorar):
@@ -73,33 +70,121 @@ public class App {
         return (int) (Math.random() * 99999);
     }
 
+    // Função de delete de tupla por string contida nela
+    public static Boolean deleteInFile(String fileName, int index, String target) {
+        Boolean boo = false;
+        try {
+            FileReader fileReader = new FileReader(fileName);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                // archive = archive + line;
+
+                String[] part = line.split(";");
+
+                int b = 0;
+
+                String[] partFrom = part[index].split(": ");
+
+                if (!partFrom[1].equals(target)) {
+
+                    try {
+                        PrintWriter writer = new PrintWriter(new FileWriter(fileName, (b == 1 ? true : false)));
+                        b = 1;
+                        writer.write(line + "\n");
+                        writer.close();
+                    } catch (IOException e) {
+                        System.out.println("Ocorreu um erro ao gravar o arquivo: " + e.getMessage());
+                    }
+
+                } else
+                    boo = true;
+            }
+
+            bufferedReader.close();
+            fileReader.close();
+
+        } catch (IOException e) {
+            System.out.println("Ocorreu um erro ao ler o arquivo: " + e.getMessage());
+        }
+        return boo;
+    }
+
+    public static void UpdateInFIle (String FileName, String id_aux){
+        String resultado = "";
+        
+        try {
+            FileReader fileScan = new FileReader(FileName);
+            BufferedReader bufferedReader = new BufferedReader(fileScan);
+            String linha;
+
+            while ((linha = bufferedReader.readLine()) != null) {
+                String[] Part = linha.split(";");
+
+                if (!Part[4].contains(id_aux)) {
+                    resultado += linha; // Concatena a linha atual na variável resultado
+                } else {
+                    String novaLinha = String.join(";", Part[0], Part[1], Part[2], Part[3],
+                            Part[4] + "1");
+                    resultado += novaLinha; // Concatena a nova linha na variável resultado
+                }
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            System.out.println("ERRO: Não foi possível ler do arquivo -> " + e.getMessage());
+        }
+
+        String[] linhas = resultado.split("1");
+
+        try {
+            FileWriter fileWriter = new FileWriter(FileName);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            // essa estrutura adiciona na variavel linha o valor da posição do loop de
+            // linhas, assim fica mais
+            // fácil de manipular a string
+
+            for (String linha : linhas) {
+                linha = linha + "1"; // Adiciona o "1" ao final de cada linha
+                bufferedWriter.write(linha);
+                bufferedWriter.newLine();
+            }
+
+            bufferedWriter.close();
+            System.out.println("Arquivo salvo com sucesso!");
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar o arquivo: " + e.getMessage());
+        }
+    }
+
     public static void main(String[] args) throws Exception {
 
         Scanner scan = new Scanner(System.in);
-        int rUserL1, rUserL2, rUserL3;
+        int rUserL1, rUserL2, rUserL3, rUserL4, verif;
+        String lineAux;
         String[] dataConversor;
         Data newData;
         String Finder;
+        String lineBuffer = "";
+        char rUserChar;
 
         clearScreen();
         do {
-            System.out.print(
-                    "O=====================O\n| Sistema CRUD_SCHOOL |\nO=====================O\n| [1] Cadastrar.      |\n| [2] Visualizar.     |\n| [3] Editar.         |\n| [4] Deletar.        |\n| [5] Sair.           |\nO=====================O\n\nR: ");
+            System.out.print("O=====================O\n| Sistema CRUD_SCHOOL |\nO=====================O\n| [1] Cadastrar.      |\n| [2] Visualizar.     |\n| [3] Editar.         |\n| [4] Deletar.        |\n| [5] Sair.           |\nO=====================O\n\nR: ");
             rUserL1 = Integer.parseInt(scan.nextLine());
 
             switch (rUserL1) {
                 case 1:
                     do {
                         clearScreen();
-                        System.out.print(
-                                "O==============================O\n| O que você deseja cadastrar? |\nO==============================O\n| [1] Professor.               |\n| [2] Aluno.                   |\n| [3] Sala.                    |\n| [4] Voltar.                  |\nO==============================O\n\nR: ");
+                        System.out.print("O==============================O\n| O que você deseja cadastrar? |\nO==============================O\n| [1] Professor.               |\n| [2] Aluno.                   |\n| [3] Sala.                    |\n| [4] Voltar.                  |\nO==============================O\n\nR: ");
                         rUserL2 = Integer.parseInt(scan.nextLine());
 
                         switch (rUserL2) {
                             case 1:
                                 clearScreen();
-                                System.out.print(
-                                        "O===========================================O\n| Você escolheu [1] cadastrar um Professor. |\nO===========================================O\n");
+                                System.out.print("O===========================================O\n| Você escolheu [1] cadastrar um Professor. |\nO===========================================O\n");
                                 Professor newTeacher = new Professor();
 
                                 // Pegando valores para salvar:
@@ -134,19 +219,18 @@ public class App {
                                 newTeacher.setId(idGenerator());
 
                                 // Salvando o novo professor no arquivo:
-                                SaveInFile("./data/ProfessorBd.txt", ("Nome do Professor: " + newTeacher.getNome() +
-                                        ";Email do Professor: " + newTeacher.getEmail() +
-                                        ";CPF do Professor: " + newTeacher.getCPF() +
-                                        ";Nascimento do Professor: " + dataConversor[0] + "/" + dataConversor[1] + "/"
-                                        + dataConversor[2] +
-                                        ";ID do Professor:" + newTeacher.getId()) + ";" + "1");
-
+                                SaveInFile("./data/ProfessorBd.txt", ((
+                                    "Nome do professor: " + newTeacher.getNome() + 
+                                    ";Email do professor: " + newTeacher.getEmail() + 
+                                    ";CPF do professor: " + newTeacher.getCPF() + 
+                                    ";Nascimento: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] + 
+                                    ";ID do professor: " + newTeacher.getId()
+                                )) + ";" + "Salvo: 1");
                                 break;
 
                             case 2:
                                 clearScreen();
-                                System.out.print(
-                                        "O=======================================O\n| Você escolheu [2] cadastrar um Aluno. |\nO=======================================O\n");
+                                System.out.print("O=======================================O\n| Você escolheu [2] cadastrar um Aluno. |\nO=======================================O\n");
                                 Aluno newStudent = new Aluno();
 
                                 // Pegando valores para salvar:
@@ -181,19 +265,18 @@ public class App {
                                 newStudent.setId(idGenerator());
 
                                 // Salvando o novo Aluno no arquivo:
-                                SaveInFile("./data/AlunoBd.txt", ("Nome do Aluno: " + newStudent.getNome() +
-                                        ";Email do Aluno: " + newStudent.getEmail() +
-                                        ";CPF do Aluno: " + newStudent.getCPF() +
-                                        ";Nascimento do Aluno: " + dataConversor[0] + "/" + dataConversor[1] + "/"
-                                        + dataConversor[2] +
-                                        ";ID do Aluno: " + newStudent.getId()) + ";" + "1");
-
+                                SaveInFile("./data/AlunoBd.txt", ((
+                                    "Nome do aluno: " + newStudent.getNome() + 
+                                    ";Email do aluno: " + newStudent.getEmail() + 
+                                    ";CPF do aluno: " + newStudent.getCPF() +
+                                    ";Nascimento: " + dataConversor[0] + "/" + dataConversor[1] + "/" + dataConversor[2] +
+                                    ";Id do aluno: " + newStudent.getId()
+                                )) + ";" + "Salvo: 1");
                                 break;
 
                             case 3:
                                 clearScreen();
-                                System.out.print(
-                                        "O=======================================O\n| Você escolheu [3] cadastrar uma sala. |\nO=======================================O\n");
+                                System.out.print("O=======================================O\n| Você escolheu [3] cadastrar uma sala. |\nO=======================================O\n");
                                 Sala newClassroom = new Sala();
 
                                 // Salvando o número da sala:
@@ -204,9 +287,10 @@ public class App {
                                 newClassroom.setId(idGenerator());
 
                                 // Salvando a sala no arquivo:
-                                SaveInFile("./data/SalaBd.txt", ("Numero da Sala: " + newClassroom.getNum() + ";" +
-                                        "Id da Sala: " + newClassroom.getId()) + ";" + "1");
-
+                                SaveInFile("./data/SalaBd.txt", ((
+                                    "Número da sala: " + newClassroom.getNum() 
+                                    + ";ID da sala: " + newClassroom.getId()
+                                ) + ";" + "Salvo: 1"));
                                 break;
 
                             case 4:
@@ -216,7 +300,7 @@ public class App {
 
                             default:
                                 System.out.println("\nOpção inválida! escolha entre 1 e 4.");
-                                pauseScreen();
+                                pauseScreen(scan, lineBuffer);
                                 clearScreen();
                                 break;
                         }
@@ -226,37 +310,37 @@ public class App {
                 case 2:
                     do {
                         clearScreen();
-                        System.out.print(
-                                "O===============================O\n| O que você deseja Visualizar? |\nO===============================O\n| [1] Professor.                |\n| [2] Aluno.                    |\n| [3] Sala.                     |\n| [4] Voltar.                   |\nO===============================O\n\nR: ");
+                        System.out.print("O===============================O\n| O que você deseja Visualizar? |\nO===============================O\n| [1] Professor.                |\n| [2] Aluno.                    |\n| [3] Sala.                     |\n| [4] Voltar.                   |\nO===============================O\n\nR: ");
                         rUserL2 = Integer.parseInt(scan.nextLine());
 
                         switch (rUserL2) {
                             case 1:
                                 do {
                                     clearScreen();
-                                    System.out.print(
-                                            "O========================================O\n| Você escolheu [1] Visualizar Professor |\nO========================================O\n|   Digite como você deseja visualizar   |\nO----------------------------------------+\n| [1] Procurar por Nome do professor.    |\n| [2] Procurar por Email do professor.   |\n| [3] Procurar por CPF do professor.     |\n| [4] Procurar por Data de nascimento.   |\n| [5] Procurar por ID do professor.      |\n| [6] Visualizar todos os Professores.   |\n| [7] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
+                                    System.out.print("O========================================O\n| Você escolheu [1] Visualizar Professor |\nO========================================O\n|   Digite como você deseja visualizar   |\nO----------------------------------------+\n| [1] Procurar por Nome do professor.    |\n| [2] Procurar por Email do professor.   |\n| [3] Procurar por CPF do professor.     |\n| [4] Procurar por Data de nascimento.   |\n| [5] Procurar por ID do professor.      |\n| [6] Visualizar todos os Professores.   |\n| [7] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
                                     rUserL3 = Integer.parseInt(scan.nextLine());
 
                                     if (rUserL3 >= 1 && rUserL3 <= 6) {
                                         rUserL3--;
 
-                                        if (rUserL3 != 5) {
+                                        if(rUserL3!=5){
                                             System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
                                             Finder = scan.nextLine();
-                                        } else {
+                                        }else{
                                             Finder = "1";
                                         }
-
-                                        if (LookInFile("./data/ProfessorBd.txt", Finder, rUserL3) == 1) {
-                                            System.out.println("\n\nEsses foram os encontrados!");
-                                        } else {
-                                            System.out.println("\n\nDados não encontrados!");
+                                        
+                                        lineAux = LookInFile("./data/ProfessorBd.txt", Finder, rUserL3);
+                                        
+                                        if(lineAux.equals("-1")){
+                                            System.out.println("\nDados não encontrados!");
+                                        }else{
+                                            System.out.println("\nDados encontrados: \n\n" + lineAux.replace("|", "\n\n").replace(";", "\n"));
                                         }
-                                        pauseScreen();
-                                    } else if (rUserL3 != 7) {
+                                        pauseScreen(scan, lineBuffer);;
+                                    } else if (rUserL3!=7){
                                         System.out.println("\nValor inválido. escolha entre 1 e 6.");
-                                        pauseScreen();
+                                        pauseScreen(scan, lineBuffer);;
                                     }
                                 } while (rUserL3 != 7);
 
@@ -265,29 +349,30 @@ public class App {
                             case 2:
                                 do {
                                     clearScreen();
-                                    System.out.print(
-                                            "O========================================O\n|   Você escolheu [2] Visualizar Aluno   |\nO========================================O\n|   Digite como você deseja visualizar   |\n+----------------------------------------+\n| [1] Procurar por Nome do Aluno.        |\n| [2] Procurar por Email do Aluno.       |\n| [3] Procurar por CPF do Aluno.         |\n| [4] Procurar por Data de nascimento.   |\n| [5] Procurar por ID do Aluno.          |\n| [6] Visualizar todos os Aluno.         |\n| [7] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
+                                    System.out.print("O========================================O\n|   Você escolheu [2] Visualizar Aluno   |\nO========================================O\n|   Digite como você deseja visualizar   |\n+----------------------------------------+\n| [1] Procurar por Nome do Aluno.        |\n| [2] Procurar por Email do Aluno.       |\n| [3] Procurar por CPF do Aluno.         |\n| [4] Procurar por Data de nascimento.   |\n| [5] Procurar por ID do Aluno.          |\n| [6] Visualizar todos os Aluno.         |\n| [7] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
                                     rUserL3 = Integer.parseInt(scan.nextLine());
 
                                     if (rUserL3 >= 1 && rUserL3 <= 6) {
                                         rUserL3--;
 
-                                        if (rUserL3 != 5) {
+                                        if(rUserL3!=5){
                                             System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
                                             Finder = scan.nextLine();
-                                        } else {
+                                        }else{
                                             Finder = "1";
                                         }
 
-                                        if (LookInFile("./data/AlunoBd.txt", Finder, rUserL3) == 1) {
-                                            System.out.println("\n\nEsses foram os dados encontrados!");
-                                        } else {
-                                            System.out.println("\n\nDados não encontrados!");
+                                        lineAux = LookInFile("./data/AlunoBd.txt", Finder, rUserL3);
+
+                                        if(lineAux.equals("-1")){
+                                            System.out.println("\nDados não encontrados!");
+                                        }else{
+                                            System.out.println("\nDados encontrados: \n\n" + lineAux.replace("|", "\n\n").replace(";", "\n"));
                                         }
-                                        pauseScreen();
-                                    } else if (rUserL3 != 7) {
+                                        pauseScreen(scan, lineBuffer);;
+                                    } else if (rUserL3!=7){
                                         System.out.println("\nValor inválido. escolha entre 1 e 6.");
-                                        pauseScreen();
+                                        pauseScreen(scan, lineBuffer);;
                                     }
                                 } while (rUserL3 != 7);
                                 break;
@@ -295,351 +380,360 @@ public class App {
                             case 3:
                                 do {
                                     clearScreen();
-                                    System.out.print(
-                                            "O========================================O\n|   Você escolheu [3] Visualizar Sala    |\nO========================================O\n|   Digite como você deseja visualizar   |\n+----------------------------------------+\n| [1] Procurar por Número da sala.       |\n| [2] Procurar por ID da Sala.           |\n| [3] Visualizar todas as salas.         |\n| [4] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
+                                    System.out.print("O========================================O\n|   Você escolheu [3] Visualizar Sala    |\nO========================================O\n|   Digite como você deseja visualizar   |\n+----------------------------------------+\n| [1] Procurar por Número da sala.       |\n| [2] Procurar por ID da Sala.           |\n| [3] Visualizar todas as salas.         |\n| [4] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
                                     rUserL3 = Integer.parseInt(scan.nextLine());
 
                                     if (rUserL3 >= 1 && rUserL3 <= 3) {
                                         rUserL3--;
 
-                                        if (rUserL3 != 2) {
+                                        if(rUserL3!=2){
                                             System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
                                             Finder = scan.nextLine();
-                                        } else {
+                                        }else{
                                             Finder = "1";
                                         }
 
-                                        if (LookInFile("./data/SalaBd.txt", Finder, rUserL3) == 1) {
-                                            System.out.println("\n\nEsses foram encontrados!");
-                                        } else {
-                                            System.out.println("\n\nDados não encontrados!");
+                                        lineAux = LookInFile("./data/SalaBd.txt", Finder, rUserL3);
+
+                                        if(lineAux.equals("-1")){
+                                            System.out.println("\nDados não encontrados!");
+                                        }else{
+                                            System.out.println("\nDados encontrados: \n\n" + lineAux.replace("|", "\n\n").replace(";", "\n"));
                                         }
-                                        pauseScreen();
-                                    } else if (rUserL3 != 4) {
+                                        pauseScreen(scan, lineBuffer);;
+                                    } else if (rUserL3!=4){
                                         System.out.println("\nValor inválido. escolha entre 1 e 4.");
-                                        pauseScreen();
+                                        pauseScreen(scan, lineBuffer);;
                                     }
                                 } while (rUserL3 != 4);
-                                break;
+                            break;
 
                             case 4:
                                 clearScreen();
 
-                                break;
+                            break;
 
                             default:
                                 System.out.println("\nOpção inválida! escolha entre 1 e 4.");
-                                pauseScreen();
+                                pauseScreen(scan, lineBuffer);;
                                 clearScreen();
-                                break;
+                            break;
                         }
                     } while (rUserL2 != 4);
                     break;
 
-                case 3:
+                    case 3:
                     do {
                         clearScreen();
-                        System.out.print(
-                                "O===========================O\n| O que você deseja Editar? |\nO===========================O\n| [1] Professor.            |\n| [2] Aluno.                |\n| [3] Sala.                 |\n| [4] Voltar.               |\nO===========================O\n\nR: ");
+                        System.out.print("O===========================O\n| O que você deseja Editar? |\nO===========================O\n| [1] Professor.            |\n| [2] Aluno.                |\n| [3] Sala.                 |\n| [4] Voltar.               |\nO===========================O\n\nR: ");
                         rUserL2 = Integer.parseInt(scan.nextLine());
-
-                        String id_aux = "";
-                        String resultado = "";
-                        String[] partsAux = new String[5];
-                        int verif = 0;
 
                         switch (rUserL2) {
                             case 1:
                                 clearScreen();
 
                                 System.out.print("Digite o id do professor que deseja editar: ");
-                                id_aux = scan.nextLine();
+                                Finder = scan.nextLine();
+                                lineAux = LookInFile("./data/ProfessorBd.txt", Finder, 4);
 
+                                if(lineAux.equals("-1")){
+                                    System.out.println("\nID não encontrada!");
+                                }else{
+                                    String[] Part = lineAux.split(";");
 
-                                try {
-                                    FileReader fileScan = new FileReader("ProfessorBd.txt");
-                                    BufferedReader bufferedReader = new BufferedReader(fileScan);
-                                    String linha;
+                                    do {
+                                        System.out.print("O================================O\n|  Editando Dados do Professor   |\nO================================O\n+--------------------------------+\tDados Atuais:\n| [1] Editar nome do professor.  |\t - " + Part[0] + "\n| [2] Editar Email do professor. |\t - " + Part[1] + "\n| [3] Editar CPF do professor.   |\t - " + Part[2] + "\n| [4] Editar Data de Nascimento. |\t - " + Part[3] + "\n| [5] Voltar.                    |\t - " + Part[4] + "\n+--------------------------------+\nO================================O\n\nR: ");
 
-                                    while ((linha = bufferedReader.readLine()) != null) {
-                                        String[] Part = linha.split(";");
+                                        rUserL4 = Integer.parseInt(scan.nextLine());
+                                        rUserL4--;
+                                        switch (rUserL4) {
+                                            case 0:
+                                                System.out.print("\nDigite o novo nome do professor.\nR: ");
+                                                Part[rUserL4] = "Nome do professor: " + scan.nextLine();
 
-                                        if (Part[4].contains(id_aux)) {
-                                            partsAux[0] = Part[0];
-                                            partsAux[1] = Part[1];
-                                            partsAux[2] = Part[2];
-                                            partsAux[3] = Part[3];
-                                            partsAux[4] = Part[4];
+                                                clearScreen();
+                                            break;
+                                                
+                                            case 1:
+                                                System.out.print("\nDigite o novo email do professor.\nR: ");
+                                                Part[rUserL4] = "Email do professor: " + scan.nextLine();
+
+                                                clearScreen();
+                                            break;
+
+                                            case 2:
+                                                System.out.print("\nDigite o novo CPF do professor.\nR: ");
+                                                Part[rUserL4] = "CPF do professor: " + scan.nextLine();
+
+                                                clearScreen();
+                                            break;
+
+                                            case 3:
+                                                System.out.print("\nDigite a nova data de nascimento do professor.\nR: ");
+                                                Part[rUserL4] = "Nascimento: " + scan.nextLine();
+
+                                                clearScreen();
+                                            break;
+
+                                            case 4:
+                                                clearScreen();
+                                            break;
+                                        
+                                            default:
+                                                System.out.print("\nOpção inválida! escolha entre 1 e 5.");
+                                                pauseScreen(scan, lineBuffer);
+                                                clearScreen();
+                                            break;
+                                        }
+                                    } while (rUserL4!=4);
+
+                                    do {
+                                        System.out.print("Você deseja salvar? [S/N].\nR: ");
+                                        rUserChar = scan.nextLine().charAt(0);
+
+                                        if(rUserChar == 'S' || rUserChar == 's'){
+                                            verif = 0;
+                                            // Algoritmo de salvar.
+                                            UpdateInFIle("./data/ProfessorBd.txt", Finder);
+
+                                        }else if(rUserChar == 'N'|| rUserChar == 'n'){
+                                            verif = 0;
+                                        }else{
                                             verif = 1;
+                                            System.out.println("\nValor inválido. Escolha entre [S/N].\n");
                                         }
-                                    }
-                                    bufferedReader.close();
-                                } catch (IOException e) {
-                                    System.out.println("ERRO: Não foi possível ler do arquivo -> " + e.getMessage());
+                                        clearScreen();
+                                    } while (verif==1);
                                 }
-
-                                if (verif == 0) {
-                                    System.out.println("O id inserido não possui registro no sistema");
-                                    break;
-                                }
-
-                                System.out.println("Dado encontrado !");
-                                System.out.println(partsAux[0]);
-                                System.out.println(partsAux[1]);
-                                System.out.println(partsAux[2]);
-                                System.out.println(partsAux[3]);
-                                System.out.println(partsAux[4]);
-
-                                // menu
-
-                                // fim do menu
-                                // clicou em salvar dados
-
-                                try {
-                                    FileReader fileScan = new FileReader("ProfessorBd.txt");
-                                    BufferedReader bufferedReader = new BufferedReader(fileScan);
-                                    String linha;
-
-                                    while ((linha = bufferedReader.readLine()) != null) {
-                                        String[] Part = linha.split(";");
-
-                                        if (!Part[4].contains(id_aux)) {
-                                            resultado += linha; // Concatena a linha atual na variável resultado
-                                        } else {
-                                            String novaLinha = String.join(";", Part[0], Part[1], Part[2], Part[3],
-                                                    Part[4] + "1");
-                                            resultado += novaLinha; // Concatena a nova linha na variável resultado
-                                        }
-                                    }
-                                    bufferedReader.close();
-                                } catch (IOException e) {
-                                    System.out.println("ERRO: Não foi possível ler do arquivo -> " + e.getMessage());
-                                }
-
-                                String[] linhas = resultado.split("1");
-
-                                try {
-                                    FileWriter fileWriter = new FileWriter("arquivo.txt");
-                                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-                                    // essa estrutura adiciona na variavel linha o valor da posição do loop de
-                                    // linhas, assim fica mais
-                                    // fácil de manipular a string
-
-                                    for (String linha : linhas) {
-                                        linha = linha + "1"; // Adiciona o "1" ao final de cada linha
-                                        bufferedWriter.write(linha);
-                                        bufferedWriter.newLine();
-                                    }
-
-                                    bufferedWriter.close();
-                                    System.out.println("Arquivo salvo com sucesso!");
-                                } catch (IOException e) {
-                                    System.out.println("Erro ao salvar o arquivo: " + e.getMessage());
-                                }
-
-                                break;
+                            break;
 
                             case 2:
                                 clearScreen();
 
-                                System.out.print("Digite o id do aluno que deseja editar: ");
-                                id_aux = scan.nextLine();
+                                System.out.print("Digite o id do Aluno que deseja editar: ");
+                                Finder = scan.nextLine();
+                                lineAux = LookInFile("./data/AlunoBd.txt", Finder, 4);
 
-                                try {
-                                    FileReader fileScan = new FileReader("AlunoBd.txt");
-                                    BufferedReader bufferedReader = new BufferedReader(fileScan);
-                                    String linha;
+                                if(lineAux.equals("-1")){
+                                    System.out.println("\nID não encontrada!");
+                                }else{
+                                    String[] Part = lineAux.split(";");
 
-                                    while ((linha = bufferedReader.readLine()) != null) {
-                                        String[] Part = linha.split(";");
+                                    do {
+                                        System.out.print("O================================O\n|    Editando Dados do Aluno     |\nO================================O\n+--------------------------------+\tDados Atuais:\n| [1] Editar nome do Aluno.      |\t - " + Part[0] + "\n| [2] Editar Email do Aluno.     |\t - " + Part[1] + "\n| [3] Editar CPF do Aluno.       |\t - " + Part[2] + "\n| [4] Editar Data de Nascimento. |\t - " + Part[3] + "\n| [5] Voltar.                    |\t - " + Part[4] + "\n+--------------------------------+\nO================================O\n\nR: ");
 
-                                        if (Part[4].contains(id_aux)) {
-                                            partsAux[0] = Part[0];
-                                            partsAux[1] = Part[1];
-                                            partsAux[2] = Part[2];
-                                            partsAux[3] = Part[3];
-                                            partsAux[4] = Part[4];
+                                        rUserL4 = Integer.parseInt(scan.nextLine());
+                                        rUserL4--;
+                                        switch (rUserL4) {
+                                            case 0:
+                                                System.out.println("Digite o novo nome do Aluno.\nR: ");
+                                                Part[rUserL4] = "\nNome do aluno: " + scan.nextLine();
+
+                                                clearScreen();
+                                            break;
+                                                
+                                            case 1:
+                                                System.out.println("\nDigite o novo email do Aluno.\nR: ");
+                                                Part[rUserL4] = "Email do aluno: " + scan.nextLine();
+
+                                                clearScreen();
+                                            break;
+
+                                            case 2:
+                                                System.out.println("\nDigite o novo CPF do Aluno.\nR: ");
+                                                Part[rUserL4] = "CPF do aluno: " + scan.nextLine();
+
+                                                clearScreen();
+                                            break;
+
+                                            case 3:
+                                                System.out.println("\nDigite a nova data de nascimento do Aluno.\nR: ");
+                                                Part[rUserL4] = "Nascimento: " + scan.nextLine();
+
+                                                clearScreen();
+                                            break;
+
+                                            case 4:
+                                                clearScreen();
+                                            break;
+                                        
+                                            default:
+                                                System.out.println("\nOpção inválida! escolha entre 1 e 5.");
+                                                pauseScreen(scan, lineBuffer);
+                                                clearScreen();
+                                            break;
+                                        }
+                                    } while (rUserL4!=4);
+
+                                    do {
+                                        System.out.println("Você deseja salvar? [S/N].\nR: ");
+                                        rUserChar = scan.nextLine().charAt(0);
+
+                                        if(rUserChar == 'S' || rUserChar == 's'){
+                                            verif = 0;
+                                            // Algoritmo de salvar.
+                                            UpdateInFIle("./data/AlunoBd.txt", Finder);
+
+                                        }else if(rUserChar == 'N'|| rUserChar == 'n'){
+                                            verif = 0;
+                                        }else{
                                             verif = 1;
+                                            System.out.println("\nValor inválido. Escolha entre [S/N].\n");
                                         }
-                                    }
-                                    bufferedReader.close();
-                                } catch (IOException e) {
-                                    System.out.println("ERRO: Não foi possível ler do arquivo -> " + e.getMessage());
+                                        clearScreen();
+                                    } while (verif==1);
                                 }
-
-                                if (verif == 0) {
-                                    System.out.println("O id inserido não possui registro no sistema");
-                                    break;
-                                }
-
-                                System.out.println("Dado encontrado !");
-                                System.out.println(partsAux[0]);
-                                System.out.println(partsAux[1]);
-                                System.out.println(partsAux[2]);
-                                System.out.println(partsAux[3]);
-                                System.out.println(partsAux[4]);
-
-                                // menu
-
-                                // fim do menu
-                                // clicou em salvar dados
-
-                                try {
-                                    FileReader fileScan = new FileReader("AlunoBd.txt");
-                                    BufferedReader bufferedReader = new BufferedReader(fileScan);
-                                    String linha;
-
-                                    while ((linha = bufferedReader.readLine()) != null) {
-                                        String[] Part = linha.split(";");
-
-                                        if (!Part[4].contains(id_aux)) {
-                                            resultado += linha;
-                                        } else {
-                                            String novaLinha = String.join(";", Part[0], Part[1], Part[2], Part[3],
-                                                    Part[4] + "1");
-                                            resultado += novaLinha;
-                                        }
-                                    }
-                                    bufferedReader.close();
-                                } catch (IOException e) {
-                                    System.out.println("ERRO: Não foi possível ler do arquivo -> " + e.getMessage());
-                                }
-
-                                String[] linhas2 = resultado.split("1");
-
-                                try {
-                                    FileWriter fileWriter = new FileWriter("arquivo.txt");
-                                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-                                    for (String linha : linhas2) {
-                                        linha = linha + "1"; // Adiciona o "1" ao final de cada linha
-                                        bufferedWriter.write(linha);
-                                        bufferedWriter.newLine();
-                                    }
-
-                                    bufferedWriter.close();
-                                    System.out.println("Arquivo salvo com sucesso!");
-                                } catch (IOException e) {
-                                    System.out.println("Erro ao salvar o arquivo: " + e.getMessage());
-                                }
-
-                                break;
+                            break;
 
                             case 3:
-                                clearScreen();
+				                clearScreen();
 
-                                System.out.print("Digite o id da Sala que deseja editar: ");
-                                id_aux = scan.nextLine();
+                                System.out.print("Digite o ID da sala que deseja editar.\nR: ");
+                                Finder = scan.nextLine();
+                                lineAux = LookInFile("./data/SalaBd.txt", Finder, 4);
 
-                                try {
-                                    FileReader fileScan = new FileReader("AlunoBd.txt");
-                                    BufferedReader bufferedReader = new BufferedReader(fileScan);
-                                    String linha;
+                                if(lineAux.equals("-1")){
+                                    System.out.println("ID não encontrada!");
+                                }else{
+                                    String[] Part = lineAux.split(";");
 
-                                    while ((linha = bufferedReader.readLine()) != null) {
-                                        String[] Part = linha.split(";");
+                                    do {
+                                        System.out.println("O============================O\n|  Editando Dados do Aluno   |\nO============================O\n+----------------------------+\tDados Atuais:\n| [1] Editar Número da sala. |\t - " + Part[0] + "\n| [2] Voltar.                |\t - " + Part[1] + "\n+----------------------------+\nO============================O\n\nR: ");
 
-                                        if (Part[1].contains(id_aux)) {
-                                            partsAux[0] = Part[0];
-                                            partsAux[1] = Part[1];
+                                        rUserL4 = Integer.parseInt(scan.nextLine());
+                                        rUserL4--;
+                                        switch (rUserL4) {
+                                            case 0:
+                                                System.out.println("Digite o novo número da sala.\nR: ");
+                                                Part[rUserL4] = "Número da sala: " + scan.nextLine();
+
+                                                clearScreen();
+                                            break;
+                                                
+                                            case 1:
+                                                clearScreen();
+                                            break;
+                                        
+                                            default:
+                                                System.out.println("\nOpção inválida! escolha entre 1 e 5.");
+                                                pauseScreen(scan, lineBuffer);
+                                                clearScreen();
+                                            break;
+                                        }
+                                    } while (rUserL4!=4);
+
+                                    do {
+                                        System.out.println("Você deseja salvar? [S/N].\nR: ");
+                                        rUserChar = scan.nextLine().charAt(0);
+
+                                        if(rUserChar == 'S' || rUserChar == 's'){
+                                            verif = 0;
+                                            UpdateInFIle("./data/SalaBd.txt", Finder);
+
+                                        }else if(rUserChar == 'N'|| rUserChar == 'n'){
+                                            verif = 0;
+                                        }else{
                                             verif = 1;
+                                            System.out.println("\nValor inválido. Escolha entre [S/N].\n");
                                         }
-                                    }
-                                    bufferedReader.close();
-                                } catch (IOException e) {
-                                    System.out.println("ERRO: Não foi possível ler do arquivo -> " + e.getMessage());
+                                        clearScreen();
+                                    } while (verif==1);
                                 }
-
-                                if (verif == 0) {
-                                    System.out.println("O id inserido não possui registro no sistema");
-                                    break;
-                                }
-
-                                System.out.println("Dado encontrado !");
-                                System.out.println(partsAux[0]);
-                                System.out.println(partsAux[1]);
-
-                                // menu
-
-                                // fim do menu
-                                // clicou em salvar dados
-
-                                try {
-                                    FileReader fileScan = new FileReader("AlunoBd.txt");
-                                    BufferedReader bufferedReader = new BufferedReader(fileScan);
-                                    String linha;
-
-                                    while ((linha = bufferedReader.readLine()) != null) {
-                                        String[] Part = linha.split(";");
-
-                                        if (!Part[1].contains(id_aux)) {
-                                            resultado += linha;
-                                        } else {
-                                            String novaLinha = String.join(";", Part[0], Part[1] + "1");
-                                            resultado += novaLinha;
-                                        }
-                                    }
-                                    bufferedReader.close();
-                                } catch (IOException e) {
-                                    System.out.println("ERRO: Não foi possível ler do arquivo -> " + e.getMessage());
-                                }
-
-                                String[] linhas3 = resultado.split("1");
-
-                                try {
-                                    FileWriter fileWriter = new FileWriter("arquivo.txt");
-                                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-                                    for (String linha : linhas3) {
-                                        linha = linha + "1"; // Adiciona o "1" ao final de cada linha
-                                        bufferedWriter.write(linha);
-                                        bufferedWriter.newLine();
-                                    }
-
-                                    bufferedWriter.close();
-                                    System.out.println("Arquivo salvo com sucesso!");
-                                } catch (IOException e) {
-                                    System.out.println("Erro ao salvar o arquivo: " + e.getMessage());
-                                }
-
-                                break;
-
-                            case 4:
-                                clearScreen();
-
-                                break;
+                            break;
 
                             default:
-                                System.out.println("\nOpção inválida! escolha entre 1 e 4.");
-                                pauseScreen();
+                                System.out.println("\nOpção inválida! escolha entre 1 e 3.");
+                                pauseScreen(scan, lineBuffer);
                                 clearScreen();
-                                break;
+                            break;
                         }
-                    } while (rUserL2 != 4);
-                    break;
-
-                case 4:
+                    }while(rUserL2!=4);
+                    case 4:
                     do {
                         clearScreen();
-                        System.out.print(
-                                "O============================O\n| O que você deseja Deletar? |\nO============================O\n| [1] Professor.             |\n| [2] Aluno.                 |\n| [3] Sala.                  |\n| [4] Voltar.                |\nO============================O\n\nR: ");
+                        System.out.print("O============================O\n| O que você deseja Deletar? |\nO============================O\n| [1] Professor.             |\n| [2] Aluno.                 |\n| [3] Sala.                  |\n| [4] Voltar.                |\nO============================O\n\nR: ");
                         rUserL2 = Integer.parseInt(scan.nextLine());
 
                         switch (rUserL2) {
                             case 1:
-                                clearScreen();
+                                do {
+                                    clearScreen();
+                                    System.out.print("O========================================O\n|  Você escolheu [1] Deletar Professor   |\nO========================================O\n|   Digite como você deseja visualizar   |\nO----------------------------------------+\n| [1] Deletar por Nome do professor.     |\n| [2] Deletar por Email do professor.    |\n| [3] Deletar por CPF do professor.      |\n| [4] Deletar por Data de nascimento.    |\n| [5] Deletar por ID do professor.       |\n| [6] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
+                                    rUserL3 = Integer.parseInt(scan.nextLine());
+                                    if(rUserL3 < 0 || rUserL3 > 6){
+                                        System.out.println("\nValor inválido. escolha entre 1 e 6.");
+                                        pauseScreen(scan, lineBuffer);;
+                                        break;
+                                    }
+                                    if(rUserL3==6) break;
+
+                                    rUserL3--;
+
+                                    System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
+                                    Finder = scan.nextLine();
+                                    if(deleteInFile("./data/ProfessorBd.txt", rUserL3, Finder)){
+                                        System.out.println("\nDelete efetuado!\n");
+                                    }else{
+                                        System.out.println("\nDado não encontrado!\n");
+                                    }
+                                    pauseScreen(scan, lineBuffer);;
+
+                                
+                                } while (rUserL3 != 6);
+
 
                                 break;
 
                             case 2:
-                                clearScreen();
+                                do {
+                                    clearScreen();
+                                    System.out.print("O========================================O\n|    Você escolheu [2] Deletar Aluno     |\nO========================================O\n|    Digite como você deseja deletar     |\n+----------------------------------------+\n| [1] Deletar por Nome do Aluno.         |\n| [2] Deletar por Email do Aluno.        |\n| [3] Deletar por CPF do Aluno.          |\n| [4] Deletar por Data de nascimento.    |\n| [5] Deletar por ID do Aluno.           |\n| [6] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
+                                    rUserL3 = Integer.parseInt(scan.nextLine());
+                                    if(rUserL3 < 0 || rUserL3 > 7){
+                                        System.out.println("\nValor inválido. escolha entre 1 e 6.");
+                                        pauseScreen(scan, lineBuffer);;
+                                        break;
+                                    }
+                                    if(rUserL3==7) break;
 
+                                    rUserL3--;
+
+                                    System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
+                                    Finder = scan.nextLine();
+                                    if(deleteInFile("./data/AlunoBd.txt", rUserL3, Finder)){
+                                        System.out.println("\nDelete efetuado!\n");
+                                    }else{
+                                        System.out.println("\nDado não encontrado!\n");
+                                    }
+                                    pauseScreen(scan, lineBuffer);;
+
+                                } while (rUserL3 != 6);
                                 break;
 
                             case 3:
-                                clearScreen();
+                                do {
+                                    clearScreen();
+                                    System.out.print("O========================================O\n|     Você escolheu [3] Deletar Sala     |\nO========================================O\n|     Digite como você deseja deletar    |\n+----------------------------------------+\n| [1] Deletar por Número da sala.        |\n| [2] Deletar por ID da Sala.            |\n| [3] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
+                                    rUserL3 = Integer.parseInt(scan.nextLine());
+                                    if(rUserL3 < 1 || rUserL3 > 3){
+                                        System.out.println("\nValor inválido. escolha entre 1 e 3.");
+                                        pauseScreen(scan, lineBuffer);
+                                        break;
+                                    }
+                                    if(rUserL3 == 3) break;
 
+                                    rUserL3--;
+
+                                    System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
+                                    Finder = scan.nextLine();
+                                    if(deleteInFile("./data/SalaBd.txt", rUserL3, Finder)){
+                                        System.out.println("\nDelete efetuado!\n");
+                                    }else{
+                                        System.out.println("\nDado não encontrado!\n");
+                                    }
+                                    pauseScreen(scan, lineBuffer);
+                                    
+                                } while (rUserL3 != 3);
                                 break;
 
                             case 4:
@@ -649,9 +743,9 @@ public class App {
 
                             default:
                                 System.out.println("\nOpção inválida! escolha entre 1 e 4.");
-                                pauseScreen();
+                                pauseScreen(scan, lineBuffer);;
                                 clearScreen();
-                                break;
+                            break;
                         }
                     } while (rUserL2 != 4);
                     break;
@@ -662,9 +756,9 @@ public class App {
 
                 default:
                     System.out.println("\nOpção inválida! escolha entre 1 e 5.");
-                    pauseScreen();
+                    pauseScreen(scan, lineBuffer);
                     clearScreen();
-                    break;
+                break;
             }
         } while (rUserL1 != 5);
 
