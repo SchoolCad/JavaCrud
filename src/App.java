@@ -153,20 +153,20 @@ public class App {
 
         clearScreen();
         do {
-            System.out.print("O=====================O\n| Sistema CRUD_SCHOOL |\nO=====================O\n| [1] Cadastrar.      |\n| [2] Visualizar.     |\n| [3] Editar.         |\n| [4] Deletar.        |\n| [5] Sair.           |\nO=====================O\n\nR: ");
+            System.out.print("O=====================O                          ~/\n| Sistema CRUD_SCHOOL |\nO=====================O\n| [1] Cadastrar.      |\n| [2] Visualizar.     |\n| [3] Editar.         |\n| [4] Deletar.        |\n| [5] Sair.           |\nO=====================O\n\nR: ");
             rUserL1 = Integer.parseInt(scan.nextLine());
 
             switch (rUserL1) {
                 case 1:
                     do {
                         clearScreen();
-                        System.out.print("O==============================O\n| O que você deseja cadastrar? |\nO==============================O\n| [1] Professor.               |\n| [2] Aluno.                   |\n| [3] Sala.                    |\n| [4] Voltar.                  |\nO==============================O\n\nR: ");
+                        System.out.print("O==============================O                 ~/cadastrar/\n| O que você deseja cadastrar? |\nO==============================O\n| [1] Professor.               |\n| [2] Aluno.                   |\n| [3] Sala.                    |\n| [4] Voltar.                  |\nO==============================O\n\nR: ");
                         rUserL2 = Integer.parseInt(scan.nextLine());
 
                         switch (rUserL2) {
                             case 1:
                                 clearScreen();
-                                System.out.print("O===========================================O\n| Você escolheu [1] cadastrar um Professor. |\nO===========================================O\n");
+                                System.out.print("O===========================================O    ~/cadastrar/professor/\n| Você escolheu [1] cadastrar um Professor. |\nO===========================================O\n");
                                 Professor newTeacher = new Professor();
 
                                 // Pegando valores para salvar:
@@ -212,7 +212,7 @@ public class App {
 
                             case 2:
                                 clearScreen();
-                                System.out.print("O=======================================O\n| Você escolheu [2] cadastrar um Aluno. |\nO=======================================O\n");
+                                System.out.print("O=======================================O        ~/cadastrar/aluno/\n| Você escolheu [2] cadastrar um Aluno. |\nO=======================================O\n");
                                 Aluno newStudent = new Aluno();
 
                                 // Pegando valores para salvar:
@@ -258,7 +258,7 @@ public class App {
 
                             case 3:
                                 clearScreen();
-                                System.out.print("O=======================================O\n| Você escolheu [3] cadastrar uma sala. |\nO=======================================O\n");
+                                System.out.print("O=======================================O        ~/cadastrar/sala/\n| Você escolheu [3] cadastrar uma sala. |\nO=======================================O\n");
                                 Sala newClassroom = new Sala();
 
                                 // Salvando o número da sala:
@@ -292,14 +292,14 @@ public class App {
                 case 2:
                     do {
                         clearScreen();
-                        System.out.print("O===============================O\n| O que você deseja Visualizar? |\nO===============================O\n| [1] Professor.                |\n| [2] Aluno.                    |\n| [3] Sala.                     |\n| [4] Voltar.                   |\nO===============================O\n\nR: ");
+                        System.out.print("O===============================O                ~/visualizar/\n| O que você deseja Visualizar? |\nO===============================O\n| [1] Professor.                |\n| [2] Aluno.                    |\n| [3] Sala.                     |\n| [4] Voltar.                   |\nO===============================O\n\nR: ");
                         rUserL2 = Integer.parseInt(scan.nextLine());
 
                         switch (rUserL2) {
                             case 1:
                                 do {
                                     clearScreen();
-                                    System.out.print("O========================================O\n| Você escolheu [1] Visualizar Professor |\nO========================================O\n|   Digite como você deseja visualizar   |\nO----------------------------------------+\n| [1] Procurar por Nome do professor.    |\n| [2] Procurar por Email do professor.   |\n| [3] Procurar por CPF do professor.     |\n| [4] Procurar por Data de nascimento.   |\n| [5] Procurar por ID do professor.      |\n| [6] Visualizar todos os Professores.   |\n| [7] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
+                                    System.out.print("O========================================O       ~/visualizar/professor/\n| Você escolheu [1] Visualizar Professor |\nO========================================O\n|   Digite como você deseja visualizar   |\nO----------------------------------------+\n| [1] Procurar por Nome do professor.    |\n| [2] Procurar por Email do professor.   |\n| [3] Procurar por CPF do professor.     |\n| [4] Procurar por Data de nascimento.   |\n| [5] Procurar por ID do professor.      |\n| [6] Visualizar todos os Professores.   |\n| [7] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
                                     rUserL3 = Integer.parseInt(scan.nextLine());
 
                                     if (rUserL3 >= 1 && rUserL3 <= 6) {
@@ -331,7 +331,7 @@ public class App {
                             case 2:
                                 do {
                                     clearScreen();
-                                    System.out.print("O========================================O\n|   Você escolheu [2] Visualizar Aluno   |\nO========================================O\n|   Digite como você deseja visualizar   |\n+----------------------------------------+\n| [1] Procurar por Nome do Aluno.        |\n| [2] Procurar por Email do Aluno.       |\n| [3] Procurar por CPF do Aluno.         |\n| [4] Procurar por Data de nascimento.   |\n| [5] Procurar por ID do Aluno.          |\n| [6] Visualizar todos os Aluno.         |\n| [7] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
+                                    System.out.print("O========================================O       ~/visualizar/aluno/\n|   Você escolheu [2] Visualizar Aluno   |\nO========================================O\n|   Digite como você deseja visualizar   |\n+----------------------------------------+\n| [1] Procurar por Nome do Aluno.        |\n| [2] Procurar por Email do Aluno.       |\n| [3] Procurar por CPF do Aluno.         |\n| [4] Procurar por Data de nascimento.   |\n| [5] Procurar por ID do Aluno.          |\n| [6] Visualizar todos os Aluno.         |\n| [7] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
                                     rUserL3 = Integer.parseInt(scan.nextLine());
 
                                     if (rUserL3 >= 1 && rUserL3 <= 6) {
@@ -362,7 +362,7 @@ public class App {
                             case 3:
                                 do {
                                     clearScreen();
-                                    System.out.print("O========================================O\n|   Você escolheu [3] Visualizar Sala    |\nO========================================O\n|   Digite como você deseja visualizar   |\n+----------------------------------------+\n| [1] Procurar por Número da sala.       |\n| [2] Procurar por ID da Sala.           |\n| [3] Visualizar todas as salas.         |\n| [4] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
+                                    System.out.print("O========================================O       ~/visualizar/sala/\n|   Você escolheu [3] Visualizar Sala    |\nO========================================O\n|   Digite como você deseja visualizar   |\n+----------------------------------------+\n| [1] Procurar por Número da sala.       |\n| [2] Procurar por ID da Sala.           |\n| [3] Visualizar todas as salas.         |\n| [4] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
                                     rUserL3 = Integer.parseInt(scan.nextLine());
 
                                     if (rUserL3 >= 1 && rUserL3 <= 3) {
@@ -407,7 +407,7 @@ public class App {
                     case 3:
                     do {
                         clearScreen();
-                        System.out.print("O===========================O\n| O que você deseja Editar? |\nO===========================O\n| [1] Professor.            |\n| [2] Aluno.                |\n| [3] Sala.                 |\n| [4] Voltar.               |\nO===========================O\n\nR: ");
+                        System.out.print("O===========================O                    ~/editar/\n| O que você deseja Editar? |\nO===========================O\n| [1] Professor.            |\n| [2] Aluno.                |\n| [3] Sala.                 |\n| [4] Voltar.               |\nO===========================O\n\nR: ");
                         rUserL2 = Integer.parseInt(scan.nextLine());
 
                         switch (rUserL2) {
@@ -424,40 +424,39 @@ public class App {
                                     String[] Part = lineAux.split(";");
 
                                     do {
-                                        System.out.print("O================================O\n|  Editando Dados do Professor   |\nO================================O\n+--------------------------------+\tDados Atuais:\n| [1] Editar nome do professor.  |\t - " + Part[0] + "\n| [2] Editar Email do professor. |\t - " + Part[1] + "\n| [3] Editar CPF do professor.   |\t - " + Part[2] + "\n| [4] Editar Data de Nascimento. |\t - " + Part[3] + "\n| [5] Voltar.                    |\t - " + Part[4] + "\n+--------------------------------+\nO================================O\n\nR: ");
+                                        System.out.print("O================================O               ~/editar/professor/\n|  Editando Dados do Professor   |\nO================================O\n+--------------------------------+\tDados Atuais:\n| [1] Editar nome do professor.  |\t - " + Part[0] + "\n| [2] Editar Email do professor. |\t - " + Part[1] + "\n| [3] Editar CPF do professor.   |\t - " + Part[2] + "\n| [4] Editar Data de Nascimento. |\t - " + Part[3] + "\n| [5] Voltar.                    |\t - " + Part[4] + "\n+--------------------------------+\nO================================O\n\nR: ");
 
                                         rUserL4 = Integer.parseInt(scan.nextLine());
-                                        rUserL4--;
                                         switch (rUserL4) {
-                                            case 0:
+                                            case 1:
                                                 System.out.print("\nDigite o novo nome do professor.\nR: ");
-                                                Part[rUserL4] = "Nome do professor: " + scan.nextLine();
+                                                Part[rUserL4 - 1] = "Nome do professor: " + scan.nextLine();
 
                                                 clearScreen();
                                             break;
                                                 
-                                            case 1:
-                                                System.out.print("\nDigite o novo email do professor.\nR: ");
-                                                Part[rUserL4] = "Email do professor: " + scan.nextLine();
-
-                                                clearScreen();
-                                            break;
-
                                             case 2:
-                                                System.out.print("\nDigite o novo CPF do professor.\nR: ");
-                                                Part[rUserL4] = "CPF do professor: " + scan.nextLine();
+                                                System.out.print("\nDigite o novo email do professor.\nR: ");
+                                                Part[rUserL4 - 1] = "Email do professor: " + scan.nextLine();
 
                                                 clearScreen();
                                             break;
 
                                             case 3:
-                                                System.out.print("\nDigite a nova data de nascimento do professor.\nR: ");
-                                                Part[rUserL4] = "Nascimento: " + scan.nextLine();
+                                                System.out.print("\nDigite o novo CPF do professor.\nR: ");
+                                                Part[rUserL4 - 1] = "CPF do professor: " + scan.nextLine();
 
                                                 clearScreen();
                                             break;
 
                                             case 4:
+                                                System.out.print("\nDigite a nova data de nascimento do professor.\nR: ");
+                                                Part[rUserL4 - 1] = "Nascimento: " + scan.nextLine();
+
+                                                clearScreen();
+                                            break;
+
+                                            case 5:
                                                 clearScreen();
                                             break;
                                         
@@ -467,7 +466,7 @@ public class App {
                                                 clearScreen();
                                             break;
                                         }
-                                    } while (rUserL4!=4);
+                                    } while (rUserL4!=5);
 
                                     do {
                                         System.out.print("Você deseja salvar? [S/N].\nR: ");
@@ -502,40 +501,39 @@ public class App {
                                     String[] Part = lineAux.split(";");
 
                                     do {
-                                        System.out.print("O================================O\n|    Editando Dados do Aluno     |\nO================================O\n+--------------------------------+\tDados Atuais:\n| [1] Editar nome do Aluno.      |\t - " + Part[0] + "\n| [2] Editar Email do Aluno.     |\t - " + Part[1] + "\n| [3] Editar CPF do Aluno.       |\t - " + Part[2] + "\n| [4] Editar Data de Nascimento. |\t - " + Part[3] + "\n| [5] Voltar.                    |\t - " + Part[4] + "\n+--------------------------------+\nO================================O\n\nR: ");
+                                        System.out.print("O================================O               ~/editar/aluno/\n|    Editando Dados do Aluno     |\nO================================O\n+--------------------------------+\tDados Atuais:\n| [1] Editar nome do Aluno.      |\t - " + Part[0] + "\n| [2] Editar Email do Aluno.     |\t - " + Part[1] + "\n| [3] Editar CPF do Aluno.       |\t - " + Part[2] + "\n| [4] Editar Data de Nascimento. |\t - " + Part[3] + "\n| [5] Voltar.                    |\t - " + Part[4] + "\n+--------------------------------+\nO================================O\n\nR: ");
 
                                         rUserL4 = Integer.parseInt(scan.nextLine());
-                                        rUserL4--;
                                         switch (rUserL4) {
-                                            case 0:
+                                            case 1:
                                                 System.out.println("Digite o novo nome do Aluno.\nR: ");
-                                                Part[rUserL4] = "\nNome do aluno: " + scan.nextLine();
+                                                Part[rUserL4 - 1] = "\nNome do aluno: " + scan.nextLine();
 
                                                 clearScreen();
                                             break;
                                                 
-                                            case 1:
-                                                System.out.println("\nDigite o novo email do Aluno.\nR: ");
-                                                Part[rUserL4] = "Email do aluno: " + scan.nextLine();
-
-                                                clearScreen();
-                                            break;
-
                                             case 2:
-                                                System.out.println("\nDigite o novo CPF do Aluno.\nR: ");
-                                                Part[rUserL4] = "CPF do aluno: " + scan.nextLine();
+                                                System.out.println("\nDigite o novo email do Aluno.\nR: ");
+                                                Part[rUserL4 - 1] = "Email do aluno: " + scan.nextLine();
 
                                                 clearScreen();
                                             break;
 
                                             case 3:
-                                                System.out.println("\nDigite a nova data de nascimento do Aluno.\nR: ");
-                                                Part[rUserL4] = "Nascimento: " + scan.nextLine();
+                                                System.out.println("\nDigite o novo CPF do Aluno.\nR: ");
+                                                Part[rUserL4 - 1] = "CPF do aluno: " + scan.nextLine();
 
                                                 clearScreen();
                                             break;
 
                                             case 4:
+                                                System.out.println("\nDigite a nova data de nascimento do Aluno.\nR: ");
+                                                Part[rUserL4 - 1] = "Nascimento: " + scan.nextLine();
+
+                                                clearScreen();
+                                            break;
+
+                                            case 5:
                                                 clearScreen();
                                             break;
                                         
@@ -545,7 +543,7 @@ public class App {
                                                 clearScreen();
                                             break;
                                         }
-                                    } while (rUserL4!=4);
+                                    } while (rUserL4!=5);
 
                                     do {
                                         System.out.println("Você deseja salvar? [S/N].\nR: ");
@@ -578,19 +576,18 @@ public class App {
                                     String[] Part = lineAux.split(";");
 
                                     do {
-                                        System.out.print("O============================O\n|   Editando Dados da Sala   |\nO============================O\n+----------------------------+\tDados Atuais:\n| [1] Editar Número da sala. |\t - " + Part[0] + "\n| [2] Voltar.                |\t - " + Part[1] + "\n+----------------------------+\nO============================O\n\nR: ");
+                                        System.out.print("O============================O                   ~/editar/sala/\n|   Editando Dados da Sala   |\nO============================O\n+----------------------------+\tDados Atuais:\n| [1] Editar Número da sala. |\t - " + Part[0] + "\n| [2] Voltar.                |\t - " + Part[1] + "\n+----------------------------+\nO============================O\n\nR: ");
 
                                         rUserL4 = Integer.parseInt(scan.nextLine());
-                                        rUserL4--;
                                         switch (rUserL4) {
-                                            case 0:
+                                            case 1:
                                                 System.out.print("Digite o novo número da sala.\nR: ");
-                                                Part[rUserL4] = "Número da sala: " + scan.nextLine();
+                                                Part[rUserL4 - 1] = "Número da sala: " + scan.nextLine();
 
                                                 clearScreen();
                                             break;
                                                 
-                                            case 1:
+                                            case 2:
                                                 clearScreen();
                                             break;
                                         
@@ -600,7 +597,7 @@ public class App {
                                                 clearScreen();
                                             break;
                                         }
-                                    } while (rUserL4!=1);
+                                    } while (rUserL4!=2);
 
                                     do {
                                         System.out.print("Você deseja salvar? [S/N].\nR: ");
@@ -621,6 +618,11 @@ public class App {
                                 }
                             break;
 
+                            case 4:
+                                clearScreen();
+
+                            break;
+
                             default:
                                 System.out.println("\nOpção inválida! escolha entre 1 e 3.");
                                 pauseScreen(scan, lineBuffer);
@@ -628,106 +630,109 @@ public class App {
                             break;
                         }
                     }while(rUserL2!=4);
+
+                    break;
+
                     case 4:
-                    do {
-                        clearScreen();
-                        System.out.print("O============================O\n| O que você deseja Deletar? |\nO============================O\n| [1] Professor.             |\n| [2] Aluno.                 |\n| [3] Sala.                  |\n| [4] Voltar.                |\nO============================O\n\nR: ");
-                        rUserL2 = Integer.parseInt(scan.nextLine());
+                        do {
+                            clearScreen();
+                            System.out.print("O============================O                   ~/deletar/\n| O que você deseja Deletar? |\nO============================O\n| [1] Professor.             |\n| [2] Aluno.                 |\n| [3] Sala.                  |\n| [4] Voltar.                |\nO============================O\n\nR: ");
+                            rUserL2 = Integer.parseInt(scan.nextLine());
 
-                        switch (rUserL2) {
-                            case 1:
-                                do {
-                                    clearScreen();
-                                    System.out.print("O========================================O\n|  Você escolheu [1] Deletar Professor   |\nO========================================O\n|   Digite como você deseja visualizar   |\nO----------------------------------------+\n| [1] Deletar por Nome do professor.     |\n| [2] Deletar por Email do professor.    |\n| [3] Deletar por CPF do professor.      |\n| [4] Deletar por Data de nascimento.    |\n| [5] Deletar por ID do professor.       |\n| [6] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
-                                    rUserL3 = Integer.parseInt(scan.nextLine());
-                                    if(rUserL3 < 0 || rUserL3 > 6){
-                                        System.out.println("\nValor inválido. escolha entre 1 e 6.");
+                            switch (rUserL2) {
+                                case 1:
+                                    do {
+                                        clearScreen();
+                                        System.out.print("O========================================O       ~/deletar/professor/\n|  Você escolheu [1] Deletar Professor   |\nO========================================O\n|   Digite como você deseja visualizar   |\nO----------------------------------------+\n| [1] Deletar por Nome do professor.     |\n| [2] Deletar por Email do professor.    |\n| [3] Deletar por CPF do professor.      |\n| [4] Deletar por Data de nascimento.    |\n| [5] Deletar por ID do professor.       |\n| [6] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
+                                        rUserL3 = Integer.parseInt(scan.nextLine());
+                                        if(rUserL3 < 0 || rUserL3 > 6){
+                                            System.out.println("\nValor inválido. escolha entre 1 e 6.");
+                                            pauseScreen(scan, lineBuffer);;
+                                            break;
+                                        }
+                                        if(rUserL3==6) break;
+
+                                        rUserL3--;
+
+                                        System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
+                                        Finder = scan.nextLine();
+                                        if(deleteInFile("./data/ProfessorBd.txt", rUserL3, Finder)){
+                                            System.out.println("\nDelete efetuado!\n");
+                                        }else{
+                                            System.out.println("\nDado não encontrado!\n");
+                                        }
                                         pauseScreen(scan, lineBuffer);;
-                                        break;
-                                    }
-                                    if(rUserL3==6) break;
 
-                                    rUserL3--;
-
-                                    System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
-                                    Finder = scan.nextLine();
-                                    if(deleteInFile("./data/ProfessorBd.txt", rUserL3, Finder)){
-                                        System.out.println("\nDelete efetuado!\n");
-                                    }else{
-                                        System.out.println("\nDado não encontrado!\n");
-                                    }
-                                    pauseScreen(scan, lineBuffer);;
-
-                                
-                                } while (rUserL3 != 6);
-
-
-                                break;
-
-                            case 2:
-                                do {
-                                    clearScreen();
-                                    System.out.print("O========================================O\n|    Você escolheu [2] Deletar Aluno     |\nO========================================O\n|    Digite como você deseja deletar     |\n+----------------------------------------+\n| [1] Deletar por Nome do Aluno.         |\n| [2] Deletar por Email do Aluno.        |\n| [3] Deletar por CPF do Aluno.          |\n| [4] Deletar por Data de nascimento.    |\n| [5] Deletar por ID do Aluno.           |\n| [6] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
-                                    rUserL3 = Integer.parseInt(scan.nextLine());
-                                    if(rUserL3 < 0 || rUserL3 > 7){
-                                        System.out.println("\nValor inválido. escolha entre 1 e 6.");
-                                        pauseScreen(scan, lineBuffer);;
-                                        break;
-                                    }
-                                    if(rUserL3==7) break;
-
-                                    rUserL3--;
-
-                                    System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
-                                    Finder = scan.nextLine();
-                                    if(deleteInFile("./data/AlunoBd.txt", rUserL3, Finder)){
-                                        System.out.println("\nDelete efetuado!\n");
-                                    }else{
-                                        System.out.println("\nDado não encontrado!\n");
-                                    }
-                                    pauseScreen(scan, lineBuffer);;
-
-                                } while (rUserL3 != 6);
-                                break;
-
-                            case 3:
-                                do {
-                                    clearScreen();
-                                    System.out.print("O========================================O\n|     Você escolheu [3] Deletar Sala     |\nO========================================O\n|     Digite como você deseja deletar    |\n+----------------------------------------+\n| [1] Deletar por Número da sala.        |\n| [2] Deletar por ID da Sala.            |\n| [3] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
-                                    rUserL3 = Integer.parseInt(scan.nextLine());
-                                    if(rUserL3 < 1 || rUserL3 > 3){
-                                        System.out.println("\nValor inválido. escolha entre 1 e 3.");
-                                        pauseScreen(scan, lineBuffer);
-                                        break;
-                                    }
-                                    if(rUserL3 == 3) break;
-
-                                    rUserL3--;
-
-                                    System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
-                                    Finder = scan.nextLine();
-                                    if(deleteInFile("./data/SalaBd.txt", rUserL3, Finder)){
-                                        System.out.println("\nDelete efetuado!\n");
-                                    }else{
-                                        System.out.println("\nDado não encontrado!\n");
-                                    }
-                                    pauseScreen(scan, lineBuffer);
                                     
-                                } while (rUserL3 != 3);
+                                    } while (rUserL3 != 6);
+
+
+                                    break;
+
+                                case 2:
+                                    do {
+                                        clearScreen();
+                                        System.out.print("O========================================O      ~/ddeletar/aluno/\n|    Você escolheu [2] Deletar Aluno     |\nO========================================O\n|    Digite como você deseja deletar     |\n+----------------------------------------+\n| [1] Deletar por Nome do Aluno.         |\n| [2] Deletar por Email do Aluno.        |\n| [3] Deletar por CPF do Aluno.          |\n| [4] Deletar por Data de nascimento.    |\n| [5] Deletar por ID do Aluno.           |\n| [6] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
+                                        rUserL3 = Integer.parseInt(scan.nextLine());
+                                        if(rUserL3 < 0 || rUserL3 > 7){
+                                            System.out.println("\nValor inválido. escolha entre 1 e 6.");
+                                            pauseScreen(scan, lineBuffer);;
+                                            break;
+                                        }
+                                        if(rUserL3==7) break;
+
+                                        rUserL3--;
+
+                                        System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
+                                        Finder = scan.nextLine();
+                                        if(deleteInFile("./data/AlunoBd.txt", rUserL3, Finder)){
+                                            System.out.println("\nDelete efetuado!\n");
+                                        }else{
+                                            System.out.println("\nDado não encontrado!\n");
+                                        }
+                                        pauseScreen(scan, lineBuffer);;
+
+                                    } while (rUserL3 != 6);
+                                    break;
+
+                                case 3:
+                                    do {
+                                        clearScreen();
+                                        System.out.print("O========================================O         ~/deletar/sala/\n|     Você escolheu [3] Deletar Sala     |\nO========================================O\n|     Digite como você deseja deletar    |\n+----------------------------------------+\n| [1] Deletar por Número da sala.        |\n| [2] Deletar por ID da Sala.            |\n| [3] Voltar.                            |\n+----------------------------------------+\nO========================================O\n\nR: ");
+                                        rUserL3 = Integer.parseInt(scan.nextLine());
+                                        if(rUserL3 < 1 || rUserL3 > 3){
+                                            System.out.println("\nValor inválido. escolha entre 1 e 3.");
+                                            pauseScreen(scan, lineBuffer);
+                                            break;
+                                        }
+                                        if(rUserL3 == 3) break;
+
+                                        rUserL3--;
+
+                                        System.out.print("\nDigite o valor que você quer encontrar.\nR: ");
+                                        Finder = scan.nextLine();
+                                        if(deleteInFile("./data/SalaBd.txt", rUserL3, Finder)){
+                                            System.out.println("\nDelete efetuado!\n");
+                                        }else{
+                                            System.out.println("\nDado não encontrado!\n");
+                                        }
+                                        pauseScreen(scan, lineBuffer);
+                                        
+                                    } while (rUserL3 != 3);
+                                    break;
+
+                                case 4:
+                                    clearScreen();
+
+                                    break;
+
+                                default:
+                                    System.out.println("\nOpção inválida! escolha entre 1 e 4.");
+                                    pauseScreen(scan, lineBuffer);;
+                                    clearScreen();
                                 break;
-
-                            case 4:
-                                clearScreen();
-
-                                break;
-
-                            default:
-                                System.out.println("\nOpção inválida! escolha entre 1 e 4.");
-                                pauseScreen(scan, lineBuffer);;
-                                clearScreen();
-                            break;
-                        }
-                    } while (rUserL2 != 4);
+                            }
+                        } while (rUserL2 != 4);
                     break;
 
                 case 5:
