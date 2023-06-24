@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,8 +28,7 @@ public class App {
             return 0; // Caso ela seja salva com sucesso, a funçãl retorna 0;
         } catch (IOException e) {
             System.out.println("ERRO: Não foi possível salvar no arquivo -> " + e.getMessage());
-            return 1; // Caso haja algum problema ao salvar, esse problema é exibido e a função
-                      // retorna 1;
+            return 1; // Caso haja algum problema ao salvar, esse problema é exibido e a função // retorna 1;
         }
     }
 
@@ -110,24 +108,21 @@ public class App {
         }
         return boo;
     }
+    
+    public static void UpdateInFile(String fileName, String[] line, String lineFull, int indice) {
+        StringBuilder stringToSave = new StringBuilder();
 
-    public static void UpdateInFIle (String FileName, String id_aux){
-        String resultado = "";
-        
         try {
-            FileReader fileScan = new FileReader(FileName);
-            BufferedReader bufferedReader = new BufferedReader(fileScan);
+            FileReader fileReader = new FileReader(fileName);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
             String linha;
 
             while ((linha = bufferedReader.readLine()) != null) {
-                String[] Part = linha.split(";");
-
-                if (!Part[4].contains(id_aux)) {
-                    resultado += linha; // Concatena a linha atual na variável resultado
+                String[] parts = linha.split(";");
+                if (parts[indice].equals(line[indice])) {
+                    stringToSave.append(lineFull);
                 } else {
-                    String novaLinha = String.join(";", Part[0], Part[1], Part[2], Part[3],
-                            Part[4] + "1");
-                    resultado += novaLinha; // Concatena a nova linha na variável resultado
+                    stringToSave.append(linha).append("!");
                 }
             }
             bufferedReader.close();
@@ -135,26 +130,13 @@ public class App {
             System.out.println("ERRO: Não foi possível ler do arquivo -> " + e.getMessage());
         }
 
-        String[] linhas = resultado.split("1");
-
         try {
-            FileWriter fileWriter = new FileWriter(FileName);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            PrintWriter writer = new PrintWriter(new FileWriter(fileName));
+            writer.print(stringToSave.toString().replaceAll("!", "\n").replace("|", "\n"));
+            writer.close();
 
-            // essa estrutura adiciona na variavel linha o valor da posição do loop de
-            // linhas, assim fica mais
-            // fácil de manipular a string
-
-            for (String linha : linhas) {
-                linha = linha + "1"; // Adiciona o "1" ao final de cada linha
-                bufferedWriter.write(linha);
-                bufferedWriter.newLine();
-            }
-
-            bufferedWriter.close();
-            System.out.println("Arquivo salvo com sucesso!");
         } catch (IOException e) {
-            System.out.println("Erro ao salvar o arquivo: " + e.getMessage());
+            System.out.println("ERRO: Não foi possível salvar no arquivo -> " + e.getMessage());
         }
     }
 
@@ -494,7 +476,7 @@ public class App {
                                         if(rUserChar == 'S' || rUserChar == 's'){
                                             verif = 0;
                                             // Algoritmo de salvar.
-                                            UpdateInFIle("./data/ProfessorBd.txt", Finder);
+                                            UpdateInFile("./data/ProfessorBd.txt", Part, (Part[0] + ";" + Part[1] + ";" + Part[2] + ";" + Part[3] + ";" + Part[4] + ";" + Part[5]), 4);
 
                                         }else if(rUserChar == 'N'|| rUserChar == 'n'){
                                             verif = 0;
@@ -571,9 +553,7 @@ public class App {
 
                                         if(rUserChar == 'S' || rUserChar == 's'){
                                             verif = 0;
-                                            // Algoritmo de salvar.
-                                            UpdateInFIle("./data/AlunoBd.txt", Finder);
-
+                                            UpdateInFile("./data/AlunoBd.txt", Part, (Part[0] + ";" + Part[1] + ";" + Part[2] + ";" + Part[3] + ";" + Part[4] + ";" + Part[5]), 4);
                                         }else if(rUserChar == 'N'|| rUserChar == 'n'){
                                             verif = 0;
                                         }else{
@@ -590,7 +570,7 @@ public class App {
 
                                 System.out.print("Digite o ID da sala que deseja editar.\nR: ");
                                 Finder = scan.nextLine();
-                                lineAux = LookInFile("./data/SalaBd.txt", Finder, 4);
+                                lineAux = LookInFile("./data/SalaBd.txt", Finder, 1);
 
                                 if(lineAux.equals("-1")){
                                     System.out.println("ID não encontrada!");
@@ -598,13 +578,13 @@ public class App {
                                     String[] Part = lineAux.split(";");
 
                                     do {
-                                        System.out.println("O============================O\n|  Editando Dados do Aluno   |\nO============================O\n+----------------------------+\tDados Atuais:\n| [1] Editar Número da sala. |\t - " + Part[0] + "\n| [2] Voltar.                |\t - " + Part[1] + "\n+----------------------------+\nO============================O\n\nR: ");
+                                        System.out.print("O============================O\n|   Editando Dados da Sala   |\nO============================O\n+----------------------------+\tDados Atuais:\n| [1] Editar Número da sala. |\t - " + Part[0] + "\n| [2] Voltar.                |\t - " + Part[1] + "\n+----------------------------+\nO============================O\n\nR: ");
 
                                         rUserL4 = Integer.parseInt(scan.nextLine());
                                         rUserL4--;
                                         switch (rUserL4) {
                                             case 0:
-                                                System.out.println("Digite o novo número da sala.\nR: ");
+                                                System.out.print("Digite o novo número da sala.\nR: ");
                                                 Part[rUserL4] = "Número da sala: " + scan.nextLine();
 
                                                 clearScreen();
@@ -615,20 +595,20 @@ public class App {
                                             break;
                                         
                                             default:
-                                                System.out.println("\nOpção inválida! escolha entre 1 e 5.");
+                                                System.out.println("\nOpção inválida! escolha entre 1 e 2.");
                                                 pauseScreen(scan, lineBuffer);
                                                 clearScreen();
                                             break;
                                         }
-                                    } while (rUserL4!=4);
+                                    } while (rUserL4!=1);
 
                                     do {
-                                        System.out.println("Você deseja salvar? [S/N].\nR: ");
+                                        System.out.print("Você deseja salvar? [S/N].\nR: ");
                                         rUserChar = scan.nextLine().charAt(0);
 
                                         if(rUserChar == 'S' || rUserChar == 's'){
                                             verif = 0;
-                                            UpdateInFIle("./data/SalaBd.txt", Finder);
+                                            UpdateInFile("./data/SalaBd.txt", Part, (Part[0] + ";" + Part[1] + ";" + Part[2]), 1);
 
                                         }else if(rUserChar == 'N'|| rUserChar == 'n'){
                                             verif = 0;
